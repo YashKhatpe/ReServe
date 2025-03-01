@@ -24,7 +24,7 @@ const donorFormSchema = z.object({
   address_map_link: z.string().url({ message: "Please enter a valid URL for the address." }),
   operational_hours: z.string().min(2, { message: "Please specify operational hours." }),
   food_preference: z.array(z.string()).min(1, { message: "Please select a food preference." }),
-  // fssai_license: z.string().optional(),
+  fssai_license: z.string().length(14,{message: "FSSAI Number should be 14 characters"}),
   fssai_license_auto_verify: z.boolean().default(false),
   // health_and_safety_cert: z.string().min(2, { message: "Please provide certification details." }),
   password: z.string().min(8, { message: "Password must be at least 8 characters." }),
@@ -69,6 +69,7 @@ export default function RegisterPage() {
       operational_hours: "",
       food_preference: [],
       fssai_license_auto_verify: false,
+      fssai_license: "",
       // health_and_safety_cert: "",
       password: "",
       confirmPassword: "",
@@ -113,6 +114,7 @@ export default function RegisterPage() {
           id: authData.user.id,
           name: data.name,
           fssai_license_auto_verify: data.fssai_license_auto_verify,
+          fssai_license:data.fssai_license,
           address_map_link: data.address_map_link,
           phone_no: data.phone_no,
           email: data.email,
@@ -269,6 +271,19 @@ export default function RegisterPage() {
                           />
                         </div>
                         
+                        <FormField
+                          control={donorForm.control}
+                          name="fssai_license"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>FSSAI License Number</FormLabel>
+                              <FormControl>
+                                <Input placeholder="Enter FSSAI Registration Number" {...field} />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
                         <FormField
                           control={donorForm.control}
                           name="address_map_link"

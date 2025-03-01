@@ -104,7 +104,7 @@ export default function LoginPage() {
           <div className="w-full md:w-1/2 hidden md:block">
             <div className="relative h-[400px] w-full rounded-lg overflow-hidden shadow-lg">
               <Image 
-                src="https://cdn.usegalileo.ai/sdxl10/3d290948-e8e2-4620-b69f-7e711ee6b381.png" 
+                src="/login.png" 
                 alt="Food donation" 
                 fill
                 className="object-cover"
