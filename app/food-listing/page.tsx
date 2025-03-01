@@ -3,27 +3,17 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { supabase } from "@/lib/supabase";
+import { Donation, useDonation } from "@/context/donation-context";
 
-type Donations = {
-  id: string;
-  food_name: string;
-  food_image: string;
-  food_type: string;
-  expiry_date_time: string;
-  preparation_date_time: string;
-  address_map_link: string;
-  serves: number;
-  storage: string;
-  preferred_pickup_time: string;
 
-}
+
 export default function FoodListingPage() {
-  const [donations, setDonations] = useState<Donations[] | []>([]);
+  const [donations, setDonations] = useState<Donation[] | []>([]);
   const router = useRouter();
+  const { setSelectedDonation } = useDonation();
 
   useEffect(() => {
     async function fetchDonations() {
@@ -38,15 +28,12 @@ export default function FoodListingPage() {
     fetchDonations();
   }, []);
 
-  const handleCardClick = (donation: Donations) => {
-    const queryString = new URLSearchParams(
-      Object.entries(donation).reduce((acc, [key, value]) => {
-        acc[key] = encodeURIComponent(String(value)); // Ensures special characters are handled
-        return acc;
-      }, {} as Record<string, string>)
-    ).toString();
-  
-    router.push(`/products?${queryString}`);
+  const handleCardClick = (donation: Donation) => {
+        // Instead of using query params, store the donation in context
+        setSelectedDonation(donation)
+
+        // Navigate to the products page without query params
+        router.push("/products")
   };
   
 

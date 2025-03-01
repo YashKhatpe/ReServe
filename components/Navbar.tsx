@@ -30,9 +30,6 @@ export function Navbar() {
         .eq("id", user.id)
         .single();
 
-      if (donorError) {
-        console.error("Error fetching donor data:", donorError);
-      }
 
       setUserType(donorData ? "donor" : "ngo");
       console.log(donorData);
