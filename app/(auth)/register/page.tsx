@@ -24,12 +24,10 @@ const donorFormSchema = z.object({
   address_map_link: z.string().url({ message: "Please enter a valid URL for the address." }),
   operational_hours: z.string().min(2, { message: "Please specify operational hours." }),
   food_preference: z.array(z.string()).min(1, { message: "Please select a food preference." }),
-  fssai_license: z.string().length(14,{message: "FSSAI Number should be 14 characters"}),
+  fssai_license: z.string().min(14, { message: "Invalid FSSAI License Number." }),
   fssai_license_auto_verify: z.boolean().default(false),
-  // health_and_safety_cert: z.string().min(2, { message: "Please provide certification details." }),
   password: z.string().min(8, { message: "Password must be at least 8 characters." }),
-  confirmPassword: z.string(),
-  // terms: z.boolean().refine(val => val === true, { message: "You must agree to the terms and conditions." })
+  confirmPassword: z.string()
 }).refine(data => data.password === data.confirmPassword, {
   message: "Passwords do not match",
   path: ["confirmPassword"]
@@ -95,54 +93,79 @@ export default function RegisterPage() {
     }
   });
 
-  async function onDonorSubmit(data: z.infer<typeof donorFormSchema>) {
-    console.log("Here");
-    console.log(data);
-    
-    try {
-      // First create auth user
-      const { data: authData, error: authError } = await supabase.auth.signUp({
-        email: data.email,
-        password: data.password,
-      });
+async function onDonorSubmit(data: z.infer<typeof donorFormSchema>) {
+  console.log("Submitting Donor Form:", data);
+  
+  // Validate FSSAI License before proceeding
+  const fssaiResponse = await fetch("/api/verifyFssai", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ fssai_license: data.fssai_license })
+  });
 
-      if (authError) throw authError;
-
-      if (authData.user) {
-        // Then insert donor data
-        const { error: donorError } = await supabase.from('donor').insert({
-          id: authData.user.id,
-          name: data.name,
-          fssai_license_auto_verify: data.fssai_license_auto_verify,
-          fssai_license:data.fssai_license,
-          address_map_link: data.address_map_link,
-          phone_no: data.phone_no,
-          email: data.email,
-          // health_and_safety_cert: data.health_and_safety_cert,
-          operational_hours: data.operational_hours,
-          food_preference: data.food_preference,
-          created_at: new Date(),
-          average_rating: 0,
-          total_ratings: 0
-        });
-
-        if (donorError) throw donorError;
-
-        toast({
-          title: "Registration successful!",
-          description: "You can now log in to your donor account.",
-        });
-
-        router.push('/login');
-      }
-    } catch (error: any) {
-      toast({
-        title: "Registration failed",
-        description: error.message || "Something went wrong. Please try again.",
-        variant: "destructive"
-      });
-    }
+  if (!fssaiResponse.ok) {
+    return toast({
+      title: "Invalid FSSAI License",
+      description: "The provided FSSAI license is not valid or not active.",
+      variant: "destructive"
+    });
   }
+
+  const fssaiDetails = await fssaiResponse.json();
+
+  if (!fssaiDetails) {
+    return toast({
+      title: "Invalid FSSAI License",
+      description: "The provided FSSAI license is not valid or not active.",
+      variant: "destructive"
+    });
+  }
+
+  try {
+    // Create auth user
+    const { data: authData, error: authError } = await supabase.auth.signUp({
+      email: data.email,
+      password: data.password,
+    });
+
+    if (authError) throw authError;
+
+    if (authData.user) {
+      // Insert donor data with verified license
+      const { error: donorError } = await supabase.from('donor').insert({
+        id: authData.user.id,
+        name: data.name,
+        fssai_license: data.fssai_license,
+        fssai_license_auto_verify: data.fssai_license_auto_verify,
+        address_map_link: data.address_map_link,
+        phone_no: data.phone_no,
+        email: data.email,
+        operational_hours: data.operational_hours,
+        food_preference: data.food_preference,
+        created_at: new Date(),
+        average_rating: 0,
+        total_ratings: 0
+      });
+
+      if (donorError) throw donorError;
+
+      toast({
+        title: "Registration successful!",
+        description: "You can now log in to your donor account.",
+      });
+
+      router.push('/login');
+    }
+  } catch (error: any) {
+    toast({
+      title: "Registration failed",
+      description: error.message || "Something went wrong. Please try again.",
+      variant: "destructive"
+    });
+  }
+}
 
   async function onNgoSubmit(data: z.infer<typeof ngoFormSchema>) {
     console.log(data);
