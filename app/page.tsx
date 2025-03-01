@@ -17,22 +17,28 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Navigation */}
-      <header className="border-b">
+      <header className="border-b bg-color:">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Heart className="h-5 w-5" />
-            <span className="font-bold text-lg">Donation Hub</span>
+            {/* <Heart className="h-5 w-5" /> */}
+             <Image 
+                src="/navlogo.png" 
+                alt="Food donation"
+                width={50}
+                height={50}
+                className=""
+                priority
+              />
+            <span className="font-bold text-lg">ReServe</span>
           </div>
           <nav className="hidden md:flex items-center gap-6">
             <a href="#how-it-works" className="text-sm font-medium">How it works</a>
             <a href="#impact" className="text-sm font-medium">Impact</a>
             <a href="#benefits" className="text-sm font-medium">Benefits</a>
-            <a href="#testimonials" className="text-sm font-medium">Testimonials</a>
-            <a href="#faqs" className="text-sm font-medium">FAQs</a>
           </nav>
           <div className="flex items-center gap-2">
-            <Button variant="default" className="bg-emerald-600 hover:bg-emerald-700">Donate</Button>
-            <Button variant="outline" className="bg-stone-100 hover:bg-stone-200">Sign up</Button>
+            <Button variant="default" className="bg-emerald-600 hover:bg-emerald-700 cursor-pointer">Donate</Button>
+            <Button variant="outline" className="bg-stone-100 hover:bg-stone-200 cursor-pointer">Sign up</Button>
           </div>
         </div>
       </header>
@@ -51,13 +57,13 @@ export default function Home() {
               /> */}
             </div>
             <div className="relative z-10 p-8 md:p-16 max-w-3xl">
-              <h1 className="text-4xl md:text-5xl font-bold mb-4">Donate your food to those in need</h1>
+              <h1 className="text-4xl md:text-5xl font-bold mb-4 whitespace-nowrap">Donate your food to those in need</h1>
               <p className="text-lg mb-8">
-                It&apos;s easy and helps the community. With just a few clicks, you can donate your food to a local food bank or an NGO.
+              Every Meal Saved, Every Life Nourished
               </p>
               <div className="flex flex-wrap gap-4">
-                <Button className="bg-emerald-600 hover:bg-emerald-700">Donate</Button>
-                <Button variant="outline" className="bg-white hover:bg-gray-100">Learn More</Button>
+                <Button className="bg-emerald-600 hover:bg-emerald-700 cursor-pointer">Donate</Button>
+                <Button variant="outline" className="bg-white hover:bg-gray-100 cursor-pointer">Learn More</Button>
               </div>
             </div>
           </div>
@@ -108,8 +114,8 @@ export default function Home() {
 
           {/* Benefits Section */}
           <section id="benefits" className="mb-16">
-            <h2 className="text-3xl font-bold mb-4">Benefits</h2>
-            <p className="text-lg mb-8 max-w-3xl">
+            <h2 className="text-3xl font-bold mb-4 text-center">Benefits</h2>
+            <p className="text-lg mb-8">
               Donating your food is a simple way to support your community. Your donations help feed
               families and individuals in need. You can also deduct 100% of the value of your food
               donation from your taxable income. And we make it easy for you to donate your food. Just a
@@ -119,12 +125,12 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               <Card className="overflow-hidden">
                 <div className="h-48 bg-stone-200 relative">
-                  {/* <Image 
-                    src="https://images.unsplash.com/photo-1579208030886-b937da9f63a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80" 
+                  <Image 
+                    src="https://cdn.usegalileo.ai/sdxl10/b547c90c-b042-41e9-aec4-e418d020d0ad.png" 
                     alt="Support your community" 
                     fill 
                     className="object-cover"
-                  /> */}
+                  />
                 </div>
                 <div className="p-4">
                   <h3 className="font-medium mb-2">Support your community</h3>
@@ -136,12 +142,12 @@ export default function Home() {
               
               <Card className="overflow-hidden">
                 <div className="h-48 bg-stone-200 relative">
-                  {/* <Image 
-                    src="https://images.unsplash.com/photo-1621956838481-f8f616950454?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80" 
+                  <Image 
+                    src="https://cdn.usegalileo.ai/sdxl10/6227c9d6-840a-4453-a8f1-bd0f6077458c.png" 
                     alt="Reduce food waste" 
                     fill 
                     className="object-cover"
-                  /> */}
+                  />
                 </div>
                 <div className="p-4">
                   <h3 className="font-medium mb-2">Reduce food waste</h3>
@@ -153,12 +159,12 @@ export default function Home() {
               
               <Card className="overflow-hidden">
                 <div className="h-48 bg-stone-200 relative">
-                  {/* <Image 
-                    src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1772&q=80" 
+                  <Image 
+                    src="https://cdn.usegalileo.ai/sdxl10/445e7095-0276-4b04-aedf-ddc04de3df88.png" 
                     alt="Tax deductible" 
                     fill 
                     className="object-cover"
-                  /> */}
+                  />
                 </div>
                 <div className="p-4">
                   <h3 className="font-medium mb-2">Tax deductible</h3>
@@ -170,12 +176,12 @@ export default function Home() {
               
               <Card className="overflow-hidden">
                 <div className="h-48 bg-stone-200 relative">
-                  {/* <Image 
-                    src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1771&q=80" 
+                  <Image 
+                    src="https://cdn.usegalileo.ai/sdxl10/2b2e9a3f-7980-4a36-96be-9002b6f6215e.png" 
                     alt="Simple and efficient" 
                     fill 
                     className="object-cover"
-                  /> */}
+                  />
                 </div>
                 <div className="p-4">
                   <h3 className="font-medium mb-2">Simple and efficient</h3>
@@ -188,7 +194,7 @@ export default function Home() {
           </section>
 
           {/* Testimonials */}
-          <section id="testimonials" className="mb-16">
+          {/* <section id="testimonials" className="mb-16">
             <div className="flex justify-center gap-6 mb-8">
               <div className="text-center">
                 <div className="w-24 h-24 bg-rose-200 rounded-lg mb-2 mx-auto relative overflow-hidden">
@@ -209,12 +215,12 @@ export default function Home() {
                 <div>Sarah T</div>
               </div>
             </div>
-          </section>
+          </section> */}
 
           {/* CTA */}
           <section className="text-center mb-16">
             <h2 className="text-3xl font-bold mb-8">Ready to donate your food?</h2>
-            <Button size="lg" className="bg-emerald-600 hover:bg-emerald-700">Donate</Button>
+            <Button size="lg" className="bg-emerald-600 hover:bg-emerald-700 cursor-pointer">Donate</Button>
           </section>
         </section>
       </main>
@@ -222,7 +228,7 @@ export default function Home() {
       <footer className="border-t py-8">
         <div className="container mx-auto px-4">
           <div className="text-center text-sm text-gray-500">
-            © 2025 Donation Hub. All rights reserved.
+            © 2025 ReServe. All rights reserved.
           </div>
         </div>
       </footer>
