@@ -62,16 +62,30 @@ export function Navbar() {
             <a href="#benefits" className="text-sm font-medium">Benefits</a>
           </nav>
           <div className="flex items-center gap-2">
-            
-              <Link href="/donate">
+            {userType === "donor" ? (
+
+                <Link href="/donate">
               <Button variant="default" className="bg-emerald-600 hover:bg-emerald-700 cursor-pointer">Donate</Button>
               </Link>
+            ) : (
+                <Link href="/food-listing">
+              <Button variant="default" className="bg-emerald-600 hover:bg-emerald-700 cursor-pointer">Request Food</Button>
+              </Link>
+
+            )}
             
             
-            {!userId &&
+            {!userId ? (
               <Link href="/register">
               <Button variant="outline" className="bg-stone-100 hover:bg-stone-200 cursor-pointer">Sign up</Button>
               </Link>
+
+            ) : (
+              
+              <Link href="/sign-out">
+              <Button variant="outline" className="bg-stone-100 hover:bg-stone-200 cursor-pointer">Sign Out</Button>
+              </Link>
+            )
             }
             
             
