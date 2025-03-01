@@ -10,7 +10,20 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
+        hostname: "plus.unsplash.com",
+      },
+      {
+        protocol: "https",
         hostname: "cdn.usegalileo.ai",
+      },
+      {
+        protocol: "http",
+        hostname: "localhost",
+        port: "3000",
+      },
+      {
+        protocol: "https",
+        hostname: "www.google.com",
       },
     ],
   },

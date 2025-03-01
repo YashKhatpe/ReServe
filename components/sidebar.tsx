@@ -13,6 +13,7 @@ import {
   Settings, 
   LogOut 
 } from "lucide-react";
+import Image from "next/image";
 
 const sidebarItems = [
   {
@@ -21,34 +22,14 @@ const sidebarItems = [
     icon: LayoutDashboard,
   },
   {
-    name: "Leaderboard",
-    href: "/leaderboard",
-    icon: BarChart2,
-  },
-  {
     name: "Order",
     href: "/order",
     icon: ShoppingCart,
   },
   {
-    name: "Products",
-    href: "/products",
-    icon: Package,
-  },
-  {
     name: "Sales Report",
     href: "/sales-report",
     icon: FileBarChart,
-  },
-  {
-    name: "Messages",
-    href: "/messages",
-    icon: MessageSquare,
-  },
-  {
-    name: "Settings",
-    href: "/settings",
-    icon: Settings,
   },
 ];
 
@@ -59,10 +40,12 @@ export function Sidebar() {
     <div className="flex h-screen flex-col bg-white border-r">
       <div className="flex h-14 items-center border-b px-4">
         <div className="flex items-center gap-2">
-          <div className="h-8 w-8 rounded bg-indigo-600 flex items-center justify-center">
-            <span className="text-white font-bold">D</span>
-          </div>
-          <span className="font-bold text-lg">Dabang</span>
+          <Image
+            src="/navlogo.png"
+            width={50}
+            height={50}
+            alt="ReServe"/>
+          <span className="font-bold text-lg">ReServe</span>
         </div>
       </div>
       <div className="flex-1 overflow-auto py-2">
@@ -96,7 +79,7 @@ export function Sidebar() {
           Sign Out
         </Link>
       </div>
-      <div className="p-4 bg-indigo-50 rounded-lg mx-4 mb-4">
+      {/* <div className="p-4 bg-indigo-50 rounded-lg mx-4 mb-4">
         <div className="flex flex-col items-center text-center">
           <div className="h-10 w-10 rounded-full bg-indigo-600 flex items-center justify-center mb-2">
             <span className="text-white font-bold">D</span>
@@ -107,7 +90,7 @@ export function Sidebar() {
             Get Pro
           </button>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

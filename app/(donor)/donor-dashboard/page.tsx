@@ -17,6 +17,7 @@ import {
   Users,
   Download
 } from "lucide-react";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -33,10 +34,16 @@ export default function Home() {
                 <h2 className="text-lg font-medium">Today's Sales</h2>
                 <p className="text-sm text-gray-500">Sales summary</p>
               </div>
+              <div className=" flex gap-3">
+
+              <Link href="/donate">
+              <Button variant="default" className="bg-emerald-600 hover:bg-emerald-700 cursor-pointer">Donate</Button>
+              </Link>
               <Button variant="outline" size="sm" className="gap-2">
                 <Download className="h-4 w-4" />
                 Export
               </Button>
+              </div>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">

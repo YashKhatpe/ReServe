@@ -15,14 +15,13 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Checkbox } from "@/components/ui/checkbox";
 import { FOOD_PREFERENCES } from "@/lib/constants";
 import { supabase } from "@/lib/supabase";
-import { useToast } from "@/hooks/use-toast";
-
+import { toast} from "sonner"
 const donorFormSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
   email: z.string().email({ message: "Please enter a valid email address." }),
   phone_no: z.string().min(10, { message: "Phone number must be at least 10 digits." }),
   address_map_link: z.string().url({ message: "Please enter a valid URL for the address." }),
-  operational_hours: z.string().min(2, { message: "Please specify operational hours." }),
+  operational_hours: z.string().min(2, { message: "Please specify operational hours." }).optional(),
   food_preference: z.array(z.string()).min(1, { message: "Please select a food preference." }),
   fssai_license: z.string().min(14, { message: "Invalid FSSAI License Number." }),
   fssai_license_auto_verify: z.boolean().default(false),
@@ -54,7 +53,7 @@ const ngoFormSchema = z.object({
 export default function RegisterPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { toast } = useToast();
+  
   const [activeTab, setActiveTab] = useState(searchParams.get("type") || "donor");
 
   const donorForm = useForm<z.infer<typeof donorFormSchema>>({
@@ -64,7 +63,7 @@ export default function RegisterPage() {
       email: "",
       phone_no: "",
       address_map_link: "",
-      operational_hours: "",
+      operational_hours: "ab",
       food_preference: [],
       fssai_license_auto_verify: false,
       fssai_license: "",
@@ -97,29 +96,22 @@ async function onDonorSubmit(data: z.infer<typeof donorFormSchema>) {
   console.log("Submitting Donor Form:", data);
   
   // Validate FSSAI License before proceeding
-  const fssaiResponse = await fetch("/api/verifyFssai", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ fssai_license: data.fssai_license })
-  });
-
-  if (!fssaiResponse.ok) {
-    return toast({
-      title: "Invalid FSSAI License",
-      description: "The provided FSSAI license is not valid or not active.",
-      variant: "destructive"
+  try {
+    
+    const fssaiResponse = await fetch("/api/verifyFssai", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ fssai_license: data.fssai_license })
     });
-  }
-
-  const fssaiDetails = await fssaiResponse.json();
-
-  if (!fssaiDetails) {
-    return toast({
-      title: "Invalid FSSAI License",
+    
+    
+    const fssaiDetails = await fssaiResponse.json();
+    
+  if (fssaiDetails.status === '404') {
+    return toast("Invalid FSSAI License",{
       description: "The provided FSSAI license is not valid or not active.",
-      variant: "destructive"
     });
   }
 
@@ -129,9 +121,9 @@ async function onDonorSubmit(data: z.infer<typeof donorFormSchema>) {
       email: data.email,
       password: data.password,
     });
-
+    
     if (authError) throw authError;
-
+    
     if (authData.user) {
       // Insert donor data with verified license
       const { error: donorError } = await supabase.from('donor').insert({
@@ -150,21 +142,27 @@ async function onDonorSubmit(data: z.infer<typeof donorFormSchema>) {
       });
 
       if (donorError) throw donorError;
-
-      toast({
-        title: "Registration successful!",
+      
+     toast("Registration successful!",{
         description: "You can now log in to your donor account.",
       });
-
+      
       router.push('/login');
     }
   } catch (error: any) {
-    toast({
-      title: "Registration failed",
+    toast("Registration Failed", {
       description: error.message || "Something went wrong. Please try again.",
-      variant: "destructive"
     });
   }
+} 
+catch (error) {
+
+ 
+    return toast("Invalid FSSAI License",{
+      description: "The provided FSSAI license is not valid or not active.",
+    });
+  
+}
 }
 
   async function onNgoSubmit(data: z.infer<typeof ngoFormSchema>) {
@@ -196,18 +194,15 @@ async function onDonorSubmit(data: z.infer<typeof donorFormSchema>) {
 
         if (ngoError) throw ngoError;
 
-        toast({
-          title: "Registration successful!",
+        toast("Registration successful!",{
           description: "You can now log in to your NGO account.",
         });
 
         router.push('/login');
       }
     } catch (error: any) {
-      toast({
-        title: "Registration failed",
+      toast("Registration Failed", {
         description: error.message || "Something went wrong. Please try again.",
-        variant: "destructive"
       });
     }
   }
@@ -321,7 +316,7 @@ async function onDonorSubmit(data: z.infer<typeof donorFormSchema>) {
                           )}
                         />
                         
-                        <FormField
+                        {/* <FormField
                           control={donorForm.control}
                           name="operational_hours"
                           render={({ field }) => (
@@ -333,7 +328,7 @@ async function onDonorSubmit(data: z.infer<typeof donorFormSchema>) {
                               <FormMessage />
                             </FormItem>
                           )}
-                        />
+                        /> */}
                         
                         <FormField
                           control={donorForm.control}
