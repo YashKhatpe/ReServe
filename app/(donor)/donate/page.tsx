@@ -35,20 +35,20 @@ export default function DonatePage() {
   const [isLoading, setIsLoading] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
 
-//   useEffect(() => {
-//     async function checkAuth() {
-//       const { data: { user } } = await supabase.auth.getUser();
+  useEffect(() => {
+    async function checkAuth() {
+      const { data: { user } } = await supabase.auth.getUser();
       
-//       if (!user) {
-//         router.push("/login");
-//         return;
-//       }
+      if (!user) {
+        router.push("/login");
+        return;
+      }
 
-//       setUserId(user.id);
-//     }
+      setUserId(user.id);
+    }
 
-//     checkAuth();
-//   }, [router]);
+    checkAuth();
+  }, [router]);
 
   const form = useForm<z.infer<typeof donationFormSchema>>({
     resolver: zodResolver(donationFormSchema),

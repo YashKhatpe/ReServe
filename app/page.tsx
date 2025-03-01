@@ -1,3 +1,5 @@
+"use client";
+
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -12,8 +14,31 @@ import {
   Banknote,
   Clock
 } from 'lucide-react';
+import Link from 'next/link';
+import { useEffect, useState } from "react";
+import { supabase } from "@/lib/supabase";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const [userId, setUserId] = useState<string | null>(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    async function checkAuth() {
+      const { data: { user } } = await supabase.auth.getUser();
+      console.log("here");
+      console.log(user);
+      if (!user) {
+        router.push("/login");
+        return;
+      }
+
+      setUserId(user.id);
+    }
+
+    checkAuth();
+  }, [router]);
+
   return (
     <div className="flex flex-col min-h-screen ">
       {/* Navigation */}
@@ -37,8 +62,19 @@ export default function Home() {
             <a href="#benefits" className="text-sm font-medium">Benefits</a>
           </nav>
           <div className="flex items-center gap-2">
-            <Button variant="default" className="bg-emerald-600 hover:bg-emerald-700 cursor-pointer">Donate</Button>
-            <Button variant="outline" className="bg-stone-100 hover:bg-stone-200 cursor-pointer">Sign up</Button>
+            
+              <Link href="/donate">
+              <Button variant="default" className="bg-emerald-600 hover:bg-emerald-700 cursor-pointer">Donate</Button>
+              </Link>
+            
+            
+            {!userId &&
+              <Link href="/register">
+              <Button variant="outline" className="bg-stone-100 hover:bg-stone-200 cursor-pointer">Sign up</Button>
+              </Link>
+            }
+            
+            
           </div>
         </div>
       </header>
