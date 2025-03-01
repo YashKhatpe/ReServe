@@ -55,7 +55,7 @@ export default function LoginPage() {
         .single();
 
       if (donorData) {
-        router.push('/donor/dashboard');
+        router.push('/donor-dashboard');
       } else {
         const { data: ngoData } = await supabase
           .from('ngo')
