@@ -29,7 +29,7 @@ export default function Home() {
       console.log("here");
       console.log(user);
       if (!user) {
-        router.push("/login");
+        // router.push("/login");
         return;
       }
 
@@ -68,10 +68,16 @@ export default function Home() {
               </Link>
             
             
-            {!userId &&
+            {!userId ? (
+              
               <Link href="/register">
               <Button variant="outline" className="bg-stone-100 hover:bg-stone-200 cursor-pointer">Sign up</Button>
               </Link>
+              ): (
+                <Link href="/sign-out">
+              <Button variant="outline" className="bg-stone-100 hover:bg-stone-200 cursor-pointer">Log Out</Button>
+              </Link>
+              )
             }
             
             

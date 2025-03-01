@@ -21,7 +21,7 @@ const donorFormSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address." }),
   phone_no: z.string().min(10, { message: "Phone number must be at least 10 digits." }),
   address_map_link: z.string().url({ message: "Please enter a valid URL for the address." }),
-  operational_hours: z.string().min(2, { message: "Please specify operational hours." }),
+  operational_hours: z.string().min(2, { message: "Please specify operational hours." }).optional(),
   food_preference: z.array(z.string()).min(1, { message: "Please select a food preference." }),
   fssai_license: z.string().min(14, { message: "Invalid FSSAI License Number." }),
   fssai_license_auto_verify: z.boolean().default(false),
@@ -63,7 +63,7 @@ export default function RegisterPage() {
       email: "",
       phone_no: "",
       address_map_link: "",
-      operational_hours: "",
+      operational_hours: "ab",
       food_preference: [],
       fssai_license_auto_verify: false,
       fssai_license: "",
@@ -316,7 +316,7 @@ catch (error) {
                           )}
                         />
                         
-                        <FormField
+                        {/* <FormField
                           control={donorForm.control}
                           name="operational_hours"
                           render={({ field }) => (
@@ -328,7 +328,7 @@ catch (error) {
                               <FormMessage />
                             </FormItem>
                           )}
-                        />
+                        /> */}
                         
                         <FormField
                           control={donorForm.control}
