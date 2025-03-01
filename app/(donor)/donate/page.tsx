@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
+
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,12 +13,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { supabase } from "@/lib/supabase";
-import { useToast } from "@/hooks/use-toast";
 import { FOOD_PREFERENCES, STORAGE_OPTIONS } from "@/lib/constants";
-import { Heart, ArrowLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { v4 as uuidv4 } from 'uuid';
 
-
+import { toast } from "sonner";
 
 const donationFormSchema = z.object({
   food_name: z.string().min(2, { message: "Food name must be at least 2 characters." }),
@@ -35,9 +34,9 @@ const donationFormSchema = z.object({
 
 export default function DonatePage() {
   const router = useRouter();
-  const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
+  // const [files, setFiles] = useState < File[] | null > (null);
 
   useEffect(() => {
     async function checkAuth() {
@@ -71,42 +70,40 @@ export default function DonatePage() {
 
   async function onSubmit(data: z.infer<typeof donationFormSchema>) {
     if (!userId) {
-      toast({
-        title: "Authentication error",
+      toast("Auth Error",{
         description: "You must be logged in to donate food.",
-        variant: "destructive"
+        
       });
       return;
     }
 
-    const [files, setFiles] = useState < File[] | null > (null);
 
-    const dropZoneConfig = {
-      maxFiles: 5,
-      maxSize: 1024 * 1024 * 4,
-      multiple: true,
-    };
-    const form = useForm < z.infer < typeof donationFormSchema >> ({
-      resolver: zodResolver(donationFormSchema),
+    // const dropZoneConfig = {
+    //   maxFiles: 5,
+    //   maxSize: 1024 * 1024 * 4,
+    //   multiple: true,
+    // };
+    // const form = useForm < z.infer < typeof donationFormSchema >> ({
+    //   resolver: zodResolver(donationFormSchema),
 
-    });
-    const file = data.food_image;
-    const fileExt = file?.name?.split(".").pop();
-    const fileName = `${Date.now()}.${fileExt}`;
-    const filePath = `food_images/${fileName}`;
+    // });
+    // const file = data.food_image;
+    // const fileExt = file?.name?.split(".").pop();
+    // const fileName = `${Date.now()}.${fileExt}`;
+    // const filePath = `food_images/${fileName}`;
 
-    setIsLoading(true);
+    // setIsLoading(true);
 
-    // Upload Image to Supabase Storage
-    const { data: uploadData, error: uploadError } = await supabase.storage
-      .from("food_images")
-      .upload(filePath, file);
+    // // Upload Image to Supabase Storage
+    // const { data: uploadData, error: uploadError } = await supabase.storage
+    //   .from("food_images")
+    //   .upload(filePath, file);
 
-    if (uploadError) throw uploadError;
+    // if (uploadError) throw uploadError;
 
-    const { data: publicUrlData } = supabase.storage
-        .from("food_images")
-        .getPublicUrl(filePath);
+    // const { data: publicUrlData } = supabase.storage
+    //     .from("food_images")
+    //     .getPublicUrl(filePath);
 
     try {
       const uniqueId = uuidv4();
@@ -126,17 +123,14 @@ export default function DonatePage() {
       console.log(error);
       if (error) throw error;
 
-      toast({
-        title: "Donation created!",
+      toast("Donation Created",{
         description: "Your food donation has been listed successfully.",
       });
 
       router.push("/donor-dashboard");
     } catch (error: any) {
-      toast({
-        title: "Error creating donation",
+      toast("Error Creating Donation",{
         description: error.message || "Could not create your donation. Please try again.",
-        variant: "destructive"
       });
     } finally {
       setIsLoading(false);
