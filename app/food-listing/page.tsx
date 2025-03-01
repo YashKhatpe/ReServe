@@ -1,148 +1,75 @@
-import Image from 'next/image';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Search, Menu } from 'lucide-react';
-import Link from 'next/link';
+import Image from "next/image";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Search } from "lucide-react";
+import  {Navbar}  from "@/components/Navbar"
 
 export default function FoodListingPage() {
   return (
-    <div className="flex flex-col min-h-screen">
-      {/* Navigation */}
-      <header className="border-b">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-6">
-            <Link href="/" className="font-bold text-lg flex items-center gap-2">
-              <Menu className="h-5 w-5" />
-              <span>Food for Good</span>
-            </Link>
-            <nav className="hidden md:flex items-center gap-6">
-              <a href="#" className="text-sm font-medium">Dashboard</a>
-              <a href="#" className="text-sm font-medium">Explore</a>
-              <a href="#" className="text-sm font-medium">Listings</a>
-              <a href="#" className="text-sm font-medium">Resources</a>
-            </nav>
-          </div>
-          <div className="flex items-center gap-3">
-            <div className="relative hidden md:block">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-              <Input 
-                placeholder="Search" 
-                className="pl-10 w-64 bg-stone-100 border-none"
-              />
-            </div>
-            <Button variant="default" className="bg-emerald-600 hover:bg-emerald-700">Log in</Button>
-            <Button variant="outline" className="bg-stone-100 hover:bg-stone-200">Sign up</Button>
-          </div>
-        </div>
-      </header>
-
-      <div className="flex flex-1">
+    <>
+    <Navbar/>
+    <div className="flex flex-col min-h-screen bg-white">
+      
+      {/* Main Container */}
+      <div className="flex flex-1 p-6">
+        
         {/* Sidebar */}
-        <aside className="w-64 border-r p-4 hidden md:block">
-          <nav className="space-y-2">
-            <a href="#" className="block px-4 py-2 rounded-md bg-stone-100 font-medium">Nearby offers</a>
-            <a href="#" className="block px-4 py-2 rounded-md hover:bg-stone-50">My offers</a>
-            <a href="#" className="block px-4 py-2 rounded-md hover:bg-stone-50">Donation history</a>
-            <a href="#" className="block px-4 py-2 rounded-md hover:bg-stone-50">Settings</a>
+        <aside className="w-64 bg-gray-100 shadow-md rounded-xl p-6 hidden md:block">
+          <nav className="space-y-3">
+            <a href="#" className="block px-4 py-3 rounded-lg bg-emerald-500 text-white font-semibold transition hover:bg-emerald-600">
+              Nearby Offers
+            </a>
+            <a href="#" className="block px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-200">Donation History</a>
           </nav>
         </aside>
 
-        {/* Main content */}
+        {/* Main Content */}
         <main className="flex-1 p-6">
-          <h1 className="text-2xl font-bold mb-6">Nearby offers</h1>
-          
-          {/* Search bar */}
+          <h1 className="text-3xl font-bold mb-6 text-center">Find Food Rescuers</h1>
+
+          {/* Search Bar */}
           <div className="relative mb-6">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
-            <Input 
-              placeholder="Search for offers..." 
-              className="pl-10 w-full bg-stone-50 border-stone-200"
+            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-6 w-6" />
+            <Input
+              placeholder="Search nearby NGOs..."
+              className="pl-12 w-full bg-gray-100 shadow-md border-none rounded-xl py-3"
             />
           </div>
 
-          {/* Filter buttons */}
-          <div className="flex flex-wrap gap-2 mb-8">
-            <Button variant="outline" className="bg-stone-50 hover:bg-stone-100 rounded-full">All</Button>
-            <Button variant="outline" className="bg-stone-50 hover:bg-stone-100 rounded-full">Bakery</Button>
-            <Button variant="outline" className="bg-stone-50 hover:bg-stone-100 rounded-full">Grocery</Button>
-            <Button variant="outline" className="bg-stone-50 hover:bg-stone-100 rounded-full">Restaurant</Button>
-            <Button variant="outline" className="bg-stone-50 hover:bg-stone-100 rounded-full">Farm</Button>
-            <Button variant="outline" className="bg-stone-50 hover:bg-stone-100 rounded-full">Catering</Button>
-            <Button variant="outline" className="bg-stone-50 hover:bg-stone-100 rounded-full">Other</Button>
+          {/* Filters */}
+          <div className="flex flex-wrap gap-4 mb-8">
+            {["Veg", "Non-Veg", "Jain"].map((type) => (
+              <label key={type} className="flex items-center space-x-2 bg-gray-100 px-4 py-2 rounded-lg shadow-md cursor-pointer">
+                <input type="checkbox" className="w-5 h-5 text-emerald-600 rounded focus:ring-emerald-500" />
+                <span className="text-gray-800 font-bold">{type}</span>
+              </label>
+            ))}
           </div>
 
-          {/* Food listings */}
-          <div className="space-y-6">
-            {/* Listing 1 */}
-            <div className="flex flex-col md:flex-row gap-6 border rounded-lg overflow-hidden">
-              <div className="w-full md:w-64 h-48 md:h-auto bg-stone-200 relative">
-                <Image 
-                  src="https://images.unsplash.com/photo-1565895405227-31cffbe0cf86?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80" 
-                  alt="Pret A Manger" 
-                  fill
-                  className="object-contain p-4"
-                />
+          {/* Food Listings */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            
+            {/* Sample Listing */}
+            {[
+              { name: "Bharat Cafe", type: "Sandwiches, Salads, Wraps", expires: "4 hours", img: "https://images.unsplash.com/photo-1565895405227-31cffbe0cf86" },
+              { name: "Sahara Vegetable Mart", type: "Fruit, Vegetables, Dairy", expires: "5 hours", img: "https://images.unsplash.com/photo-1579113800032-c38bd7635818" },
+              { name: "Sandeep Restaurant", type: "Indian Cuisine, Meals", expires: "3 hours", img: "https://images.unsplash.com/photo-1565895405227-31cffbe0cf86" }
+            ].map((item, index) => (
+              <div key={index} className="bg-white shadow-lg rounded-xl overflow-hidden transform transition hover:scale-105">
+                <div className="w-full h-48 relative">
+                  <Image src={item.img} alt={item.name} fill className="object-cover" />
+                </div>
+                <div className="p-5">
+                  <h2 className="text-xl font-bold text-gray-900">{item.name}</h2>
+                  <p className="text-emerald-600">{item.type}</p>
+                  <p className="text-gray-600">Expires in {item.expires}</p>
+                </div>
               </div>
-              <div className="p-6 flex-1">
-                <h2 className="text-xl font-bold mb-1">Pret A Manger</h2>
-                <p className="text-amber-700 mb-1">Sandwiches, Salads, Wraps</p>
-                <p className="text-gray-600">Expires in 4 hours</p>
-              </div>
-            </div>
-
-            {/* Listing 2 */}
-            <div className="flex flex-col md:flex-row gap-6 border rounded-lg overflow-hidden">
-              <div className="w-full md:w-64 h-48 md:h-auto bg-stone-200 relative">
-                <Image 
-                  src="https://images.unsplash.com/photo-1579113800032-c38bd7635818?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80" 
-                  alt="Whole Foods Market" 
-                  fill
-                  className="object-contain p-4"
-                />
-              </div>
-              <div className="p-6 flex-1">
-                <h2 className="text-xl font-bold mb-1">Whole Foods Market</h2>
-                <p className="text-amber-700 mb-1">Fruit, Vegetables, Dairy</p>
-                <p className="text-gray-600">Expires in 5 hours</p>
-              </div>
-            </div>
-
-            {/* Listing 3 */}
-            <div className="flex flex-col md:flex-row gap-6 border rounded-lg overflow-hidden">
-              <div className="w-full md:w-64 h-48 md:h-auto bg-stone-200 relative">
-                <Image 
-                  src="https://images.unsplash.com/photo-1565895405227-31cffbe0cf86?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80" 
-                  alt="Pret A Manger" 
-                  fill
-                  className="object-contain p-4"
-                />
-              </div>
-              <div className="p-6 flex-1">
-                <h2 className="text-xl font-bold mb-1">Pret A Manger</h2>
-                <p className="text-amber-700 mb-1">Sandwiches, Salads, Wraps</p>
-                <p className="text-gray-600">Expires in 4 hours</p>
-              </div>
-            </div>
-
-            {/* Listing 4 */}
-            <div className="flex flex-col md:flex-row gap-6 border rounded-lg overflow-hidden">
-              <div className="w-full md:w-64 h-48 md:h-auto bg-stone-200 relative">
-                <Image 
-                  src="https://images.unsplash.com/photo-1579113800032-c38bd7635818?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80" 
-                  alt="Whole Foods Market" 
-                  fill
-                  className="object-contain p-4"
-                />
-              </div>
-              <div className="p-6 flex-1">
-                <h2 className="text-xl font-bold mb-1">Whole Foods Market</h2>
-                <p className="text-amber-700 mb-1">Fruit, Vegetables, Dairy</p>
-                <p className="text-gray-600">Expires in 5 hours</p>
-              </div>
-            </div>
+            ))}
           </div>
         </main>
       </div>
     </div>
+    </>
   );
 }

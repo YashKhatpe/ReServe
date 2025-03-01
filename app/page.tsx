@@ -2,33 +2,33 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 // import { Separator } from '@/components/ui/separator';
-import { 
-  ShoppingBag, 
-  Truck, 
-  Users, 
-  DollarSign, 
-  Heart, 
-  Utensils, 
-  Banknote, 
-  Clock 
+import {
+  ShoppingBag,
+  Truck,
+  Users,
+  DollarSign,
+  Heart,
+  Utensils,
+  Banknote,
+  Clock
 } from 'lucide-react';
 
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen ">
       {/* Navigation */}
-      <header className="border-b bg-color:">
+      <header className="border-b">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
             {/* <Heart className="h-5 w-5" /> */}
-             <Image 
-                src="/navlogo.png" 
-                alt="Food donation"
-                width={50}
-                height={50}
-                className=""
-                priority
-              />
+            <Image
+              src="/navlogo.png"
+              alt="Food donation"
+              width={50}
+              height={50}
+              className=""
+              priority
+            />
             <span className="font-bold text-lg">ReServe</span>
           </div>
           <nav className="hidden md:flex items-center gap-6">
@@ -48,24 +48,30 @@ export default function Home() {
         <section className="container mx-auto px-4 py-8">
           <div className="relative rounded-lg overflow-hidden bg-stone-200 mb-8">
             <div className="absolute inset-0 z-0">
-              <Image 
-                src="https://cdn.usegalileo.ai/sdxl10/3d290948-e8e2-4620-b69f-7e711ee6b381.png" 
-                alt="Food donation" 
-                fill 
-                className="object-cover opacity-20"
+              <Image
+                src="/hero.png"
+                alt="Food donation"
+                fill
+                className="object-cover opacity-80"
                 priority
               />
             </div>
-            <div className="relative z-10 p-8 md:p-16 max-w-3xl">
-              <h1 className="text-4xl md:text-5xl font-bold mb-4 whitespace-nowrap">Donate your food to those in need</h1>
-              <p className="text-lg mb-8">
-              Every Meal Saved, Every Life Nourished
-              </p>
-              <div className="flex flex-wrap gap-4">
-                <Button className="bg-emerald-600 hover:bg-emerald-700 cursor-pointer">Donate</Button>
-                <Button variant="outline" className="bg-white hover:bg-gray-100 cursor-pointer">Learn More</Button>
+            <div className="flex items-center justify-center h-[350px] text-center">
+              <div className="relative z-10 p-8 md:p-16 max-w-3xl">
+                <h1 className="text-4xl md:text-5xl font-bold mb-4 whitespace-nowrap">
+                Nourish Every Need
+                </h1>
+                
+                <p className="text-lg mb-8">
+                  Every Meal Saved, Every Life Nourished
+                </p>
+                <div className="flex justify-center gap-4">
+                  <Button className="bg-emerald-600 hover:bg-emerald-700 cursor-pointer">Donate</Button>
+                  <Button variant="outline" className="bg-white hover:bg-gray-100 cursor-pointer">Learn More</Button>
+                </div>
               </div>
             </div>
+
           </div>
 
           {/* How It Works */}
@@ -125,10 +131,10 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               <Card className="overflow-hidden">
                 <div className="h-48 bg-stone-200 relative">
-                  <Image 
-                    src="https://cdn.usegalileo.ai/sdxl10/b547c90c-b042-41e9-aec4-e418d020d0ad.png" 
-                    alt="Support your community" 
-                    fill 
+                  <Image
+                    src="https://cdn.usegalileo.ai/sdxl10/b547c90c-b042-41e9-aec4-e418d020d0ad.png"
+                    alt="Support your community"
+                    fill
                     className="object-cover"
                   />
                 </div>
@@ -139,13 +145,13 @@ export default function Home() {
                   </p>
                 </div>
               </Card>
-              
+
               <Card className="overflow-hidden">
                 <div className="h-48 bg-stone-200 relative">
-                  <Image 
-                    src="https://cdn.usegalileo.ai/sdxl10/6227c9d6-840a-4453-a8f1-bd0f6077458c.png" 
-                    alt="Reduce food waste" 
-                    fill 
+                  <Image
+                    src="https://cdn.usegalileo.ai/sdxl10/6227c9d6-840a-4453-a8f1-bd0f6077458c.png"
+                    alt="Reduce food waste"
+                    fill
                     className="object-cover"
                   />
                 </div>
@@ -156,13 +162,13 @@ export default function Home() {
                   </p>
                 </div>
               </Card>
-              
+
               <Card className="overflow-hidden">
                 <div className="h-48 bg-stone-200 relative">
-                  <Image 
-                    src="https://cdn.usegalileo.ai/sdxl10/445e7095-0276-4b04-aedf-ddc04de3df88.png" 
-                    alt="Tax deductible" 
-                    fill 
+                  <Image
+                    src="https://cdn.usegalileo.ai/sdxl10/445e7095-0276-4b04-aedf-ddc04de3df88.png"
+                    alt="Tax deductible"
+                    fill
                     className="object-cover"
                   />
                 </div>
@@ -173,13 +179,13 @@ export default function Home() {
                   </p>
                 </div>
               </Card>
-              
+
               <Card className="overflow-hidden">
                 <div className="h-48 bg-stone-200 relative">
-                  <Image 
-                    src="https://cdn.usegalileo.ai/sdxl10/2b2e9a3f-7980-4a36-96be-9002b6f6215e.png" 
-                    alt="Simple and efficient" 
-                    fill 
+                  <Image
+                    src="https://cdn.usegalileo.ai/sdxl10/2b2e9a3f-7980-4a36-96be-9002b6f6215e.png"
+                    alt="Simple and efficient"
+                    fill
                     className="object-cover"
                   />
                 </div>
