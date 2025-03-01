@@ -22,34 +22,14 @@ const sidebarItems = [
     icon: LayoutDashboard,
   },
   {
-    name: "Leaderboard",
-    href: "/leaderboard",
-    icon: BarChart2,
-  },
-  {
     name: "Order",
     href: "/order",
     icon: ShoppingCart,
   },
   {
-    name: "Products",
-    href: "/products",
-    icon: Package,
-  },
-  {
     name: "Sales Report",
     href: "/sales-report",
     icon: FileBarChart,
-  },
-  {
-    name: "Messages",
-    href: "/messages",
-    icon: MessageSquare,
-  },
-  {
-    name: "Settings",
-    href: "/settings",
-    icon: Settings,
   },
 ];
 

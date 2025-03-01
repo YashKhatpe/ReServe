@@ -16,10 +16,14 @@ import { supabase } from "@/lib/supabase";
 import { useToast } from "@/hooks/use-toast";
 import { FOOD_PREFERENCES, STORAGE_OPTIONS } from "@/lib/constants";
 import { Heart, ArrowLeft } from "lucide-react";
+import { v4 as uuidv4 } from 'uuid';
+
+
 
 const donationFormSchema = z.object({
   food_name: z.string().min(2, { message: "Food name must be at least 2 characters." }),
-  food_image: z.string().trim().url({ message: "Please enter a valid URL for the food image." }).optional().or(z.literal("")),
+  // food_image: z.string().trim().url({ message: "Please enter a valid URL for the food image." }).optional().or(z.literal("")),
+  food_image: z.any({ message: "Please enter a valid food image." }).optional().or(z.literal("")),
   preparation_date_time: z.string().min(1, { message: "Preparation date and time is required." }),
   expiry_date_time: z.string().min(1, { message: "Expiry date and time is required." }),
   food_type: z.string().min(1, { message: "Please select a food type." }),
@@ -75,9 +79,39 @@ export default function DonatePage() {
       return;
     }
 
+    const [files, setFiles] = useState < File[] | null > (null);
+
+    const dropZoneConfig = {
+      maxFiles: 5,
+      maxSize: 1024 * 1024 * 4,
+      multiple: true,
+    };
+    const form = useForm < z.infer < typeof donationFormSchema >> ({
+      resolver: zodResolver(donationFormSchema),
+
+    });
+    const file = data.food_image;
+    const fileExt = file?.name?.split(".").pop();
+    const fileName = `${Date.now()}.${fileExt}`;
+    const filePath = `food_images/${fileName}`;
+
     setIsLoading(true);
+
+    // Upload Image to Supabase Storage
+    const { data: uploadData, error: uploadError } = await supabase.storage
+      .from("food_images")
+      .upload(filePath, file);
+
+    if (uploadError) throw uploadError;
+
+    const { data: publicUrlData } = supabase.storage
+        .from("food_images")
+        .getPublicUrl(filePath);
+
     try {
+      const uniqueId = uuidv4();
       const { error } = await supabase.from('donor_form').insert({
+        id: uniqueId,
         food_name: data.food_name,
         food_image: data.food_image || null,
         preparation_date_time: new Date(data.preparation_date_time).toISOString(),
@@ -89,7 +123,7 @@ export default function DonatePage() {
         donor_id: userId,
         created_at: new Date(),
       });
-
+      console.log(error);
       if (error) throw error;
 
       toast({
@@ -97,7 +131,7 @@ export default function DonatePage() {
         description: "Your food donation has been listed successfully.",
       });
 
-      router.push("/donor/dashboard");
+      router.push("/donor-dashboard");
     } catch (error: any) {
       toast({
         title: "Error creating donation",
@@ -156,6 +190,52 @@ export default function DonatePage() {
                   )}
                 />
                 
+                {/* <FormField
+              control={form.control}
+              name="food_image"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Select File</FormLabel>
+                  <FormControl>
+                    <FileUploader
+                      value={files}
+                      onValueChange={setFiles}
+                      dropzoneOptions={dropZoneConfig}
+                      className="relative bg-background rounded-lg p-2"
+                    >
+                      <FileInput
+                        id="fileInput"
+                        className="outline-dashed outline-1 outline-slate-500"
+                      >
+                        <div className="flex items-center justify-center flex-col p-8 w-full ">
+                          <CloudUpload className='text-gray-500 w-10 h-10' />
+                          <p className="mb-1 text-sm text-gray-500 dark:text-gray-400">
+                            <span className="font-semibold">Click to upload</span>
+                            &nbsp; or drag and drop
+                          </p>
+                          <p className="text-xs text-gray-500 dark:text-gray-400">
+                            SVG, PNG, JPG or GIF
+                          </p>
+                        </div>
+                      </FileInput>
+                      <FileUploaderContent>
+                        {files &&
+                          files.length > 0 &&
+                          files.map((file, i) => (
+                            <FileUploaderItem key={i} index={i}>
+                              <Paperclip className="h-4 w-4 stroke-current" />
+                              <span>{file.name}</span>
+                            </FileUploaderItem>
+                          ))}
+                      </FileUploaderContent>
+                    </FileUploader>
+                  </FormControl>
+                  <FormDescription>Select a file to upload.</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            /> */}
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <FormField
                     control={form.control}
