@@ -1,100 +1,230 @@
-import Image from "next/image";
+import Image from 'next/image';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+// import { Separator } from '@/components/ui/separator';
+import { 
+  ShoppingBag, 
+  Truck, 
+  Users, 
+  DollarSign, 
+  Heart, 
+  Utensils, 
+  Banknote, 
+  Clock 
+} from 'lucide-react';
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className="flex flex-col min-h-screen">
+      {/* Navigation */}
+      <header className="border-b">
+        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Heart className="h-5 w-5" />
+            <span className="font-bold text-lg">Donation Hub</span>
+          </div>
+          <nav className="hidden md:flex items-center gap-6">
+            <a href="#how-it-works" className="text-sm font-medium">How it works</a>
+            <a href="#impact" className="text-sm font-medium">Impact</a>
+            <a href="#benefits" className="text-sm font-medium">Benefits</a>
+            <a href="#testimonials" className="text-sm font-medium">Testimonials</a>
+            <a href="#faqs" className="text-sm font-medium">FAQs</a>
+          </nav>
+          <div className="flex items-center gap-2">
+            <Button variant="default" className="bg-emerald-600 hover:bg-emerald-700">Donate</Button>
+            <Button variant="outline" className="bg-stone-100 hover:bg-stone-200">Sign up</Button>
+          </div>
         </div>
+      </header>
+
+      <main className="flex-1">
+        {/* Hero Section */}
+        <section className="container mx-auto px-4 py-8">
+          <div className="relative rounded-lg overflow-hidden bg-stone-200 mb-8">
+            <div className="absolute inset-0 z-0">
+              {/* <Image 
+                src="https://images.unsplash.com/photo-1593113598332-cd59a93e6f6a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80" 
+                alt="Food donation" 
+                fill 
+                className="object-cover opacity-20"
+                priority
+              /> */}
+            </div>
+            <div className="relative z-10 p-8 md:p-16 max-w-3xl">
+              <h1 className="text-4xl md:text-5xl font-bold mb-4">Donate your food to those in need</h1>
+              <p className="text-lg mb-8">
+                It&apos;s easy and helps the community. With just a few clicks, you can donate your food to a local food bank or an NGO.
+              </p>
+              <div className="flex flex-wrap gap-4">
+                <Button className="bg-emerald-600 hover:bg-emerald-700">Donate</Button>
+                <Button variant="outline" className="bg-white hover:bg-gray-100">Learn More</Button>
+              </div>
+            </div>
+          </div>
+
+          {/* How It Works */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-12">
+            <Card className="p-6 flex flex-col items-center text-center">
+              <ShoppingBag className="h-8 w-8 mb-4" />
+              <h3 className="font-medium">Choose how much to donate</h3>
+            </Card>
+            <Card className="p-6 flex flex-col items-center text-center">
+              <Truck className="h-8 w-8 mb-4" />
+              <h3 className="font-medium">A driver picks up your food</h3>
+            </Card>
+            <Card className="p-6 flex flex-col items-center text-center">
+              <Users className="h-8 w-8 mb-4" />
+              <h3 className="font-medium">We deliver to those in need</h3>
+            </Card>
+            <Card className="p-6 flex flex-col items-center text-center">
+              <DollarSign className="h-8 w-8 mb-4" />
+              <h3 className="font-medium">Get a tax deduction</h3>
+            </Card>
+          </div>
+
+          {/* Stats */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-16">
+            <Card className="p-6 bg-stone-100">
+              <div className="text-sm text-gray-600 mb-1">Pounds of food donated</div>
+              <div className="text-3xl font-bold mb-1">5,000</div>
+              <div className="text-sm text-emerald-600">+20%</div>
+            </Card>
+            <Card className="p-6 bg-stone-100">
+              <div className="text-sm text-gray-600 mb-1">Meals donated</div>
+              <div className="text-3xl font-bold mb-1">2,000</div>
+              <div className="text-sm text-emerald-600">+10%</div>
+            </Card>
+            <Card className="p-6 bg-stone-100">
+              <div className="text-sm text-gray-600 mb-1">Total donations</div>
+              <div className="text-3xl font-bold mb-1">$10,000</div>
+              <div className="text-sm text-emerald-600">+15%</div>
+            </Card>
+            <Card className="p-6 bg-stone-100">
+              <div className="text-sm text-gray-600 mb-1">Pounds of food donated</div>
+              <div className="text-3xl font-bold mb-1">1,000</div>
+              <div className="text-sm text-emerald-600">+5%</div>
+            </Card>
+          </div>
+
+          {/* Benefits Section */}
+          <section id="benefits" className="mb-16">
+            <h2 className="text-3xl font-bold mb-4">Benefits</h2>
+            <p className="text-lg mb-8 max-w-3xl">
+              Donating your food is a simple way to support your community. Your donations help feed
+              families and individuals in need. You can also deduct 100% of the value of your food
+              donation from your taxable income. And we make it easy for you to donate your food. Just a
+              few clicks and we take care of the rest.
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+              <Card className="overflow-hidden">
+                <div className="h-48 bg-stone-200 relative">
+                  {/* <Image 
+                    src="https://images.unsplash.com/photo-1579208030886-b937da9f63a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80" 
+                    alt="Support your community" 
+                    fill 
+                    className="object-cover"
+                  /> */}
+                </div>
+                <div className="p-4">
+                  <h3 className="font-medium mb-2">Support your community</h3>
+                  <p className="text-sm text-gray-600">
+                    Your donations help feed families and individuals in need.
+                  </p>
+                </div>
+              </Card>
+              
+              <Card className="overflow-hidden">
+                <div className="h-48 bg-stone-200 relative">
+                  {/* <Image 
+                    src="https://images.unsplash.com/photo-1621956838481-f8f616950454?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80" 
+                    alt="Reduce food waste" 
+                    fill 
+                    className="object-cover"
+                  /> */}
+                </div>
+                <div className="p-4">
+                  <h3 className="font-medium mb-2">Reduce food waste</h3>
+                  <p className="text-sm text-gray-600">
+                    The average American family throws away $1,600 worth of food each year. Your donations help reduce this waste.
+                  </p>
+                </div>
+              </Card>
+              
+              <Card className="overflow-hidden">
+                <div className="h-48 bg-stone-200 relative">
+                  {/* <Image 
+                    src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1772&q=80" 
+                    alt="Tax deductible" 
+                    fill 
+                    className="object-cover"
+                  /> */}
+                </div>
+                <div className="p-4">
+                  <h3 className="font-medium mb-2">Tax deductible</h3>
+                  <p className="text-sm text-gray-600">
+                    You can deduct 100% of the value of your food donation from your taxable income.
+                  </p>
+                </div>
+              </Card>
+              
+              <Card className="overflow-hidden">
+                <div className="h-48 bg-stone-200 relative">
+                  {/* <Image 
+                    src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1771&q=80" 
+                    alt="Simple and efficient" 
+                    fill 
+                    className="object-cover"
+                  /> */}
+                </div>
+                <div className="p-4">
+                  <h3 className="font-medium mb-2">Simple and efficient</h3>
+                  <p className="text-sm text-gray-600">
+                    We make it easy for you to donate your food. Just a few clicks and we take care of the rest.
+                  </p>
+                </div>
+              </Card>
+            </div>
+          </section>
+
+          {/* Testimonials */}
+          <section id="testimonials" className="mb-16">
+            <div className="flex justify-center gap-6 mb-8">
+              <div className="text-center">
+                <div className="w-24 h-24 bg-rose-200 rounded-lg mb-2 mx-auto relative overflow-hidden">
+                  <Heart className="absolute inset-0 m-auto text-rose-500 h-12 w-12" />
+                </div>
+                <div>Lauren S</div>
+              </div>
+              <div className="text-center">
+                <div className="w-24 h-24 bg-rose-200 rounded-lg mb-2 mx-auto relative overflow-hidden">
+                  <Heart className="absolute inset-0 m-auto text-rose-500 h-12 w-12" />
+                </div>
+                <div>David M</div>
+              </div>
+              <div className="text-center">
+                <div className="w-24 h-24 bg-rose-200 rounded-lg mb-2 mx-auto relative overflow-hidden">
+                  <Heart className="absolute inset-0 m-auto text-rose-500 h-12 w-12" />
+                </div>
+                <div>Sarah T</div>
+              </div>
+            </div>
+          </section>
+
+          {/* CTA */}
+          <section className="text-center mb-16">
+            <h2 className="text-3xl font-bold mb-8">Ready to donate your food?</h2>
+            <Button size="lg" className="bg-emerald-600 hover:bg-emerald-700">Donate</Button>
+          </section>
+        </section>
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+
+      <footer className="border-t py-8">
+        <div className="container mx-auto px-4">
+          <div className="text-center text-sm text-gray-500">
+            © 2025 Donation Hub. All rights reserved.
+          </div>
+        </div>
       </footer>
     </div>
   );
