@@ -19,7 +19,7 @@ import { Heart, ArrowLeft } from "lucide-react";
 
 const donationFormSchema = z.object({
   food_name: z.string().min(2, { message: "Food name must be at least 2 characters." }),
-  food_image: z.string().url({ message: "Please enter a valid URL for the food image." }).optional().or(z.literal("")),
+  food_image: z.string().trim().url({ message: "Please enter a valid URL for the food image." }).optional().or(z.literal("")),
   preparation_date_time: z.string().min(1, { message: "Preparation date and time is required." }),
   expiry_date_time: z.string().min(1, { message: "Expiry date and time is required." }),
   food_type: z.string().min(1, { message: "Please select a food type." }),
