@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
 
@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 export function Navbar() {
   const [userId, setUserId] = useState<string | null>(null);
   const router = useRouter();
+  const [userType, setUserType] = useState<"donor" | "ngo" | null>(null);
 
   useEffect(() => {
     async function checkAuth() {
@@ -23,6 +24,18 @@ export function Navbar() {
       }
 
       setUserId(user.id);
+      const { data: donorData, error: donorError } = await supabase
+        .from("donor")
+        .select("id")
+        .eq("id", user.id)
+        .single();
+
+      if (donorError) {
+        console.error("Error fetching donor data:", donorError);
+      }
+
+      setUserType(donorData ? "donor" : "ngo");
+      console.log(donorData);
     }
 
     checkAuth();

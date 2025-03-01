@@ -21,8 +21,7 @@ import { toast } from "sonner";
 
 const donationFormSchema = z.object({
   food_name: z.string().min(2, { message: "Food name must be at least 2 characters." }),
-  // food_image: z.string().trim().url({ message: "Please enter a valid URL for the food image." }).optional().or(z.literal("")),
-  food_image: z.any({ message: "Please enter a valid food image." }).optional().or(z.literal("")),
+  food_image: z.string().trim().url({ message: "Please enter a valid URL for the food image." }).optional().or(z.literal("")),
   preparation_date_time: z.string().min(1, { message: "Preparation date and time is required." }),
   expiry_date_time: z.string().min(1, { message: "Expiry date and time is required." }),
   food_type: z.string().min(1, { message: "Please select a food type." }),
@@ -127,7 +126,7 @@ export default function DonatePage() {
         description: "Your food donation has been listed successfully.",
       });
 
-      router.push("/donor-dashboard");
+      router.push("/donor/dashboard");
     } catch (error: any) {
       toast("Error Creating Donation",{
         description: error.message || "Could not create your donation. Please try again.",
@@ -184,52 +183,6 @@ export default function DonatePage() {
                   )}
                 />
                 
-                {/* <FormField
-              control={form.control}
-              name="food_image"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Select File</FormLabel>
-                  <FormControl>
-                    <FileUploader
-                      value={files}
-                      onValueChange={setFiles}
-                      dropzoneOptions={dropZoneConfig}
-                      className="relative bg-background rounded-lg p-2"
-                    >
-                      <FileInput
-                        id="fileInput"
-                        className="outline-dashed outline-1 outline-slate-500"
-                      >
-                        <div className="flex items-center justify-center flex-col p-8 w-full ">
-                          <CloudUpload className='text-gray-500 w-10 h-10' />
-                          <p className="mb-1 text-sm text-gray-500 dark:text-gray-400">
-                            <span className="font-semibold">Click to upload</span>
-                            &nbsp; or drag and drop
-                          </p>
-                          <p className="text-xs text-gray-500 dark:text-gray-400">
-                            SVG, PNG, JPG or GIF
-                          </p>
-                        </div>
-                      </FileInput>
-                      <FileUploaderContent>
-                        {files &&
-                          files.length > 0 &&
-                          files.map((file, i) => (
-                            <FileUploaderItem key={i} index={i}>
-                              <Paperclip className="h-4 w-4 stroke-current" />
-                              <span>{file.name}</span>
-                            </FileUploaderItem>
-                          ))}
-                      </FileUploaderContent>
-                    </FileUploader>
-                  </FormControl>
-                  <FormDescription>Select a file to upload.</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> */}
-
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <FormField
                     control={form.control}
