@@ -11,14 +11,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Checkbox } from "@/components/ui/checkbox";
 import { FOOD_PREFERENCES } from "@/lib/constants";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "@/hooks/use-toast";
-import { Heart } from "lucide-react";
-// import { CheckboxItem } from "@radix-ui/react-menubar";
 
 const donorFormSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -29,10 +26,10 @@ const donorFormSchema = z.object({
   food_preference: z.array(z.string()).min(1, { message: "Please select a food preference." }),
   // fssai_license: z.string().optional(),
   fssai_license_auto_verify: z.boolean().default(false),
-  health_and_safety_cert: z.string().min(2, { message: "Please provide certification details." }),
+  // health_and_safety_cert: z.string().min(2, { message: "Please provide certification details." }),
   password: z.string().min(8, { message: "Password must be at least 8 characters." }),
   confirmPassword: z.string(),
-  terms: z.boolean().refine(val => val === true, { message: "You must agree to the terms and conditions." })
+  // terms: z.boolean().refine(val => val === true, { message: "You must agree to the terms and conditions." })
 }).refine(data => data.password === data.confirmPassword, {
   message: "Passwords do not match",
   path: ["confirmPassword"]
@@ -50,7 +47,7 @@ const ngoFormSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address." }),
   password: z.string().min(8, { message: "Password must be at least 8 characters." }),
   confirmPassword: z.string(),
-  terms: z.boolean().refine(val => val === true, { message: "You must agree to the terms and conditions." })
+  // terms: z.boolean().refine(val => val === true, { message: "You must agree to the terms and conditions." })
 }).refine(data => data.password === data.confirmPassword, {
   message: "Passwords do not match",
   path: ["confirmPassword"]
@@ -72,10 +69,10 @@ export default function RegisterPage() {
       operational_hours: "",
       food_preference: [],
       fssai_license_auto_verify: false,
-      health_and_safety_cert: "",
+      // health_and_safety_cert: "",
       password: "",
       confirmPassword: "",
-      terms: false
+      // terms: false
     }
   });
 
@@ -93,11 +90,14 @@ export default function RegisterPage() {
       email: "",
       password: "",
       confirmPassword: "",
-      terms: false
+      // terms: false
     }
   });
 
   async function onDonorSubmit(data: z.infer<typeof donorFormSchema>) {
+    console.log("Here");
+    console.log(data);
+    
     try {
       // First create auth user
       const { data: authData, error: authError } = await supabase.auth.signUp({
@@ -116,7 +116,7 @@ export default function RegisterPage() {
           address_map_link: data.address_map_link,
           phone_no: data.phone_no,
           email: data.email,
-          health_and_safety_cert: data.health_and_safety_cert,
+          // health_and_safety_cert: data.health_and_safety_cert,
           operational_hours: data.operational_hours,
           food_preference: data.food_preference,
           created_at: new Date(),
@@ -143,6 +143,7 @@ export default function RegisterPage() {
   }
 
   async function onNgoSubmit(data: z.infer<typeof ngoFormSchema>) {
+    console.log(data);
     try {
       // First create auth user
       const { data: authData, error: authError } = await supabase.auth.signUp({
@@ -187,34 +188,41 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen bg-secondary/30">
-
-      <div className="container mx-auto py-8">
-        <div className="flex flex-col md:flex-row gap-8 items-center">
-          <div className="w-full md:w-1/2">
+    <div className="min-h-screen bg-secondary/30 flex items-center justify-center">
+      <div className="container mx-auto py-8 flex flex-col md:flex-row gap-8 items-center">
+        
+        {/* Image Section - Fixed */}
+        <div className="w-full md:w-1/2 flex justify-center">
+          <div className="relative w-full max-w-md rounded-lg overflow-hidden shadow-lg">
             <Image 
-              src="https://images.unsplash.com/photo-1593113598332-cd59a93c5156?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80" 
+              src="https://cdn.usegalileo.ai/sdxl10/3d290948-e8e2-4620-b69f-7e711ee6b381.png" 
               alt="Food Donation" 
               width={600} 
               height={600} 
-              className="rounded-lg shadow-lg"
+              className="rounded-lg shadow-lg object-cover"
             />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6">
+              <h2 className="text-white text-2xl font-bold">
+                Making a difference, one donation at a time
+              </h2>
+            </div>
           </div>
-          
-          <div className="w-full md:w-1/2">
-            <Tabs defaultValue={activeTab} onValueChange={setActiveTab} className="w-full">
-              <TabsList className="grid w-full grid-cols-2 mb-6">
-                <TabsTrigger value="donor">Donor Registration</TabsTrigger>
-                <TabsTrigger value="ngo">NGO Registration</TabsTrigger>
-              </TabsList>
-              
-              <TabsContent value="donor">
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Register as a Food Donor</CardTitle>
-
-                  </CardHeader>
-                  <CardContent>
+        </div>
+        
+        {/* Registration Form Section */}
+        <div className="w-full md:w-1/2">
+          <Tabs defaultValue={activeTab} onValueChange={setActiveTab} className="w-full">
+            <TabsList className="grid w-full grid-cols-2 mb-6">
+              <TabsTrigger value="donor">Donor Registration</TabsTrigger>
+              <TabsTrigger value="ngo">NGO Registration</TabsTrigger>
+            </TabsList>
+  
+            {/* Donor Form */}
+            <TabsContent value="donor">
+              <Card>
+                <CardHeader><CardTitle>Register as a Food Donor</CardTitle></CardHeader>
+                <CardContent>
+                <CardContent>
                     <Form {...donorForm}>
                       <form onSubmit={donorForm.handleSubmit(onDonorSubmit)} className="space-y-4">
                         <FormField
@@ -322,7 +330,7 @@ export default function RegisterPage() {
                           )}
                         />
                         
-                        {/* <FormField
+                        <FormField
                           control={donorForm.control}
                           name="fssai_license_auto_verify"
                           render={({ field }) => (
@@ -339,7 +347,7 @@ export default function RegisterPage() {
                               <FormMessage />
                             </FormItem>
                           )}
-                        /> */}
+                        />
 
 
                         
@@ -380,16 +388,17 @@ export default function RegisterPage() {
                       </form>
                     </Form>
                   </CardContent>
-                </Card>
-              </TabsContent>
-              
-              <TabsContent value="ngo">
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Register as an NGO</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <Form {...ngoForm}>
+                {/* </Card> */}
+                </CardContent>
+              </Card>
+            </TabsContent>
+  
+            {/* NGO Form */}
+            <TabsContent value="ngo">
+              <Card>
+                <CardHeader><CardTitle>Register as an NGO</CardTitle></CardHeader>
+                <CardContent>
+                <Form {...ngoForm}>
                       <form onSubmit={ngoForm.handleSubmit(onNgoSubmit)} className="space-y-4">
                         <FormField
                           control={ngoForm.control}
@@ -478,7 +487,7 @@ export default function RegisterPage() {
                         />
                         
                         <FormField
-                          control={donorForm.control}
+                          control={ngoForm.control}
                           name="food_preference"
                           render={({ field }) => (
                             <FormItem>
@@ -564,22 +573,15 @@ export default function RegisterPage() {
                         </Button>
                       </form>
                     </Form>
-                  </CardContent>
-                </Card>
-              </TabsContent>
-            </Tabs>
-            
-            <div className="mt-4 text-center">
-              <p>
-                Already have an account?{" "}
-                <Link href="/login" className="text-primary font-semibold hover:underline">
-                  Login here
-                </Link>
-              </p>
-            </div>
-          </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+  
+          </Tabs>
         </div>
+  
       </div>
     </div>
   );
+  
 }
