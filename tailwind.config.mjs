@@ -7,6 +7,10 @@ const config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ["Clash Display", "sans-serif"],
+        mono: ["Clash Display", "monospace"], // Change mono if needed
+      },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':

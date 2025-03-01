@@ -15,7 +15,7 @@ import {
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen ">
       {/* Navigation */}
       <header className="border-b">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
@@ -42,13 +42,13 @@ export default function Home() {
         <section className="container mx-auto px-4 py-8">
           <div className="relative rounded-lg overflow-hidden bg-stone-200 mb-8">
             <div className="absolute inset-0 z-0">
-              {/* <Image 
-                src="https://images.unsplash.com/photo-1593113598332-cd59a93e6f6a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80" 
+              <Image 
+                src="https://cdn.usegalileo.ai/sdxl10/3d290948-e8e2-4620-b69f-7e711ee6b381.png" 
                 alt="Food donation" 
                 fill 
                 className="object-cover opacity-20"
                 priority
-              /> */}
+              />
             </div>
             <div className="relative z-10 p-8 md:p-16 max-w-3xl">
               <h1 className="text-4xl md:text-5xl font-bold mb-4">Donate your food to those in need</h1>
@@ -119,12 +119,12 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               <Card className="overflow-hidden">
                 <div className="h-48 bg-stone-200 relative">
-                  {/* <Image 
-                    src="https://images.unsplash.com/photo-1579208030886-b937da9f63a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80" 
+                  <Image 
+                    src="https://cdn.usegalileo.ai/sdxl10/b547c90c-b042-41e9-aec4-e418d020d0ad.png" 
                     alt="Support your community" 
                     fill 
                     className="object-cover"
-                  /> */}
+                  />
                 </div>
                 <div className="p-4">
                   <h3 className="font-medium mb-2">Support your community</h3>
@@ -136,12 +136,12 @@ export default function Home() {
               
               <Card className="overflow-hidden">
                 <div className="h-48 bg-stone-200 relative">
-                  {/* <Image 
-                    src="https://images.unsplash.com/photo-1621956838481-f8f616950454?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80" 
+                  <Image 
+                    src="https://cdn.usegalileo.ai/sdxl10/6227c9d6-840a-4453-a8f1-bd0f6077458c.png" 
                     alt="Reduce food waste" 
                     fill 
                     className="object-cover"
-                  /> */}
+                  />
                 </div>
                 <div className="p-4">
                   <h3 className="font-medium mb-2">Reduce food waste</h3>
@@ -153,12 +153,12 @@ export default function Home() {
               
               <Card className="overflow-hidden">
                 <div className="h-48 bg-stone-200 relative">
-                  {/* <Image 
-                    src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1772&q=80" 
+                  <Image 
+                    src="https://cdn.usegalileo.ai/sdxl10/445e7095-0276-4b04-aedf-ddc04de3df88.png" 
                     alt="Tax deductible" 
                     fill 
                     className="object-cover"
-                  /> */}
+                  />
                 </div>
                 <div className="p-4">
                   <h3 className="font-medium mb-2">Tax deductible</h3>
@@ -170,12 +170,12 @@ export default function Home() {
               
               <Card className="overflow-hidden">
                 <div className="h-48 bg-stone-200 relative">
-                  {/* <Image 
-                    src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1771&q=80" 
+                  <Image 
+                    src="https://cdn.usegalileo.ai/sdxl10/2b2e9a3f-7980-4a36-96be-9002b6f6215e.png" 
                     alt="Simple and efficient" 
                     fill 
                     className="object-cover"
-                  /> */}
+                  />
                 </div>
                 <div className="p-4">
                   <h3 className="font-medium mb-2">Simple and efficient</h3>
