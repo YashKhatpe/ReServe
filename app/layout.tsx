@@ -1,14 +1,16 @@
-import './globals.css';
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
-import { ThemeProvider } from '@/components/theme-provider';
-import { Toaster } from '@/components/ui/sonner';
+import "./globals.css";
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "@/components/ui/sonner";
+import { DonationProvider } from "@/context/donation-context";
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'Donation Hub - Donate Food to Those in Need',
-  description: 'Donate your excess food to help those in need in your community. Easy, tax-deductible, and makes a real difference.',
+  title: "Donation Hub - Donate Food to Those in Need",
+  description:
+    "Donate your excess food to help those in need in your community. Easy, tax-deductible, and makes a real difference.",
 };
 
 export default function RootLayout({
@@ -25,8 +27,8 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
-          <Toaster/>
+          <DonationProvider>{children}</DonationProvider>
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>
