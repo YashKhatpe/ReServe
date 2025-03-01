@@ -8,8 +8,6 @@ import { Navbar } from "@/components/Navbar";
 import { supabase } from "@/lib/supabase";
 import { Donation, useDonation } from "@/context/donation-context";
 
-
-
 export default function FoodListingPage() {
   const [donations, setDonations] = useState<Donation[] | []>([]);
   const router = useRouter();
@@ -18,10 +16,54 @@ export default function FoodListingPage() {
   useEffect(() => {
     async function fetchDonations() {
       const { data, error } = await supabase.from('donor_form').select('*');
+      
       if (error) {
         console.error("Error fetching donations:", error);
       } else {
-        setDonations(data);
+        const donationsWithDistance = await Promise.all(data.map(async (donation) => {
+          const { data: donorData, error: donorError } = await supabase
+            .from('donor')
+            .select('address_map_link')
+            .eq('id', donation.donor_id)
+            .single();
+
+          if (donorError) {
+            console.error("Error fetching donor address:", donorError);
+            return donation;
+          }
+          const { data: { user } } = await supabase.auth.getUser();
+          if (!user) {
+            console.error("User is not authenticated");
+            return donation;
+          }
+          const { data: ngoData, error: ngoError } = await supabase
+            .from('ngo')
+            .select('address_map_link')
+            .eq('id', user.id)
+            .single();
+
+          if (ngoError) {
+            console.error("Error fetching NGO address:", ngoError);
+            return donation;
+          }
+
+          const response = await fetch('/api/getDistance', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              url1: donorData.address_map_link,
+              url2: ngoData.address_map_link,
+            }),
+          });
+
+          const distanceData = await response.json();
+          console.log(distanceData);
+          return { ...donation, distance: distanceData.distance };
+        }));
+
+        setDonations(donationsWithDistance);
       }
     }
 
@@ -29,13 +71,9 @@ export default function FoodListingPage() {
   }, []);
 
   const handleCardClick = (donation: Donation) => {
-        // Instead of using query params, store the donation in context
-        setSelectedDonation(donation)
-
-        // Navigate to the products page without query params
-        router.push("/products")
+    setSelectedDonation(donation);
+    router.push("/products");
   };
-  
 
   return (
     <>
@@ -91,6 +129,7 @@ export default function FoodListingPage() {
                     <h2 className="text-xl font-bold text-gray-900">{donation.food_name}</h2>
                     <p className="text-emerald-600">{donation.food_type}</p>
                     <p className="text-gray-600">Expires in {new Date(donation.expiry_date_time).toLocaleString()}</p>
+                    <p className="text-gray-600">Distance: {Math.round(donation.distance * 100)/100} km</p>
                   </div>
                 </div>
               ))}

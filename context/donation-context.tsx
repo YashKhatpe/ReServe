@@ -14,6 +14,7 @@ export type Donation = {
     serves: number;
     storage: string;
     preferred_pickup_time: string;
+    distance: number;
   
   }
 type DonationContextType = {

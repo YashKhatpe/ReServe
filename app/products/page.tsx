@@ -17,56 +17,66 @@ import {
     DialogClose,
   } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { z } from "zod";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { supabase } from "@/lib/supabase";
-  
 
-const orderSchema = z.object({
-    serves: z.number().min(1, { message: "Serves must be 1 or greater" }),
-    otp: z.string().length(4, { message: "OTP must be exactly 4 digits" }),
-  });
-  
 export default function ProductDetailPage() {
+  const { selectedDonation } = useDonation();
+  const [isOpen, setIsOpen] = useState(false);
+  const [otp, setOtp] = useState("");
+  const router = useRouter();
 
-    const { selectedDonation } = useDonation();
-    const [isOpen, setIsOpen] = useState(false);
-    const router = useRouter();
-    useEffect(() => {
-        if (!selectedDonation) {
-          router.push("/donations")
-        }
-      }, [selectedDonation, router])
-    
-      // Show loading or redirect if no donation is selected
-      if (!selectedDonation) {
-        return <div className="p-4">Loading...</div>
-      }
+  useEffect(() => {
+    if (!selectedDonation) {
+      router.push("/donations");
+    }
+  }, [selectedDonation, router]);
 
+  // Show loading or redirect if no donation is selected
+  if (!selectedDonation) {
+    return <div className="p-4">Loading...</div>;
+  }
 
-      const orderForm = useForm<z.infer<typeof orderSchema>>({
-        resolver: zodResolver(orderSchema),
-        defaultValues: {
-            otp: "",
-            serves: 0,
-        }
-      })
+  const orderForm = useForm({
+    defaultValues: {
+      serves: 1,
+      deliveryName: "",
+      contactNumber: "",
+    },
+  });
 
-        const onOrderPlaced = async (data: z.infer<typeof orderSchema>) => {
-            console.log("Submitting Order Form:", data);
+  interface OrderFormData {
+    serves: number;
+    deliveryName: string;
+    contactNumber: string;
+  }
 
-            try {
-                const {error}  = await supabase.from("orders").insert([{
-                    serves: data.serves,
-                    otp: data.otp,
-                }])
-                if (error) throw error;
-                console.log("Order placed successfully!");
-            } catch (error: any) {
-                console.error("Error placing order:", error.message);
-            }
-        }
+  const onOrderPlaced = async (data: OrderFormData) => {
+    console.log("Submitting Order Form:", data);
+
+    try {
+        const { error } = await supabase.from("orders").insert([
+            {
+                serves: data.serves,
+                delivery_name: data.deliveryName,
+                contact_number: data.contactNumber,
+                otp: otp,
+                donation_id: selectedDonation.id,
+            },
+        ]);
+        if (error) throw error;
+        console.log("Order placed successfully!");
+    } catch (error: any) {
+        console.error("Error placing order:", error.message);
+    }
+  };
+
+  const generateOtp = () => {
+    const newOtp = Math.floor(1000 + Math.random() * 9000).toString();
+    setOtp(newOtp);
+    // alert(`Your OTP is: ${newOtp}`);
+  };
+
   return (
     <>
       <Navbar />
@@ -80,9 +90,7 @@ export default function ProductDetailPage() {
             <ArrowLeft className="w-5 h-5" />
             Back
           </Button>
-          <h1 className="text-3xl font-bold">
-            {selectedDonation.food_name}
-          </h1>
+          <h1 className="text-3xl font-bold">{selectedDonation.food_name}</h1>
         </div>
 
         {/* Main Content Layout */}
@@ -110,7 +118,7 @@ export default function ProductDetailPage() {
                   <MapPin className="w-5 h-5 text-muted-foreground" />
                   <div>
                     <p className="font-medium">Pickup Location</p>
-                    <p className="text-sm text-muted-foreground">0.5 km away</p>
+                    <p className="text-sm text-muted-foreground">{Math.round(selectedDonation.distance * 100) / 100} km away</p>
                   </div>
                 </div>
 
@@ -138,7 +146,7 @@ export default function ProductDetailPage() {
                 <div className="flex items-center gap-2">
                   <Clock className="w-5 h-5 text-muted-foreground" />
                   <div>
-                    <p className="font-medium">Prepation Time</p>
+                    <p className="font-medium">Preparation Time</p>
                     <p className="text-sm text-muted-foreground">{new Date(selectedDonation.preparation_date_time).toLocaleDateString()} {new Date(selectedDonation.preparation_date_time).toLocaleTimeString()}</p>
                   </div>
                 </div>
@@ -149,9 +157,7 @@ export default function ProductDetailPage() {
                   <div>
                     <p className="font-medium">Expiry Date</p>
                     <p className="text-sm text-muted-foreground">
-                    {new Date(selectedDonation.preparation_date_time).toLocaleDateString()} {new Date(
-                        selectedDonation.expiry_date_time
-                      ).toLocaleTimeString()}
+                      {new Date(selectedDonation.expiry_date_time).toLocaleDateString()} {new Date(selectedDonation.expiry_date_time).toLocaleTimeString()}
                     </p>
                   </div>
                 </div>
@@ -186,90 +192,110 @@ export default function ProductDetailPage() {
 
         {/* Request Food Section */}
         <div className="mt-8 flex items-center justify-center">
-          
-            <Button
-              variant="default"
-              className="bg-emerald-600 hover:bg-emerald-700 p-6 cursor-pointer     "
-              onClick={() => setIsOpen(true)}
-            >
-              Request Food
-            </Button>
-        
+          <Button
+            variant="default"
+            className="bg-emerald-600 hover:bg-emerald-700 p-6 cursor-pointer"
+            onClick={() => setIsOpen(true)}
+          >
+            Request Food
+          </Button>
         </div>
 
         {/* Popup Form */}
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
-            <form onSubmit={orderForm.handleSubmit(onOrderPlaced)}>
+          <form onSubmit={orderForm.handleSubmit(onOrderPlaced)}>
+            <DialogContent className="p-6 rounded-xl shadow-xl border border-gray-200 bg-white transition-all duration-300">
+              <DialogHeader>
+                <DialogTitle className="text-xl font-semibold text-gray-900 text-center">
+                  Request Food
+                </DialogTitle>
+              </DialogHeader>
 
-          <DialogContent className="p-6 rounded-xl shadow-xl border border-gray-200 bg-white transition-all duration-300">
-            <DialogHeader>
-              <DialogTitle className="text-xl font-semibold text-gray-900 text-center">
-                Request Food
-              </DialogTitle>
-            </DialogHeader>
-
-            {/* Form Fields */}
-            <div className="space-y-5 mt-3">
-              <div className="flex flex-col space-y-2">
-                <Label htmlFor="serves" className="text-gray-700 font-medium">
-                  Number of Serves
-                </Label>
-                <Input
-                  id="serves"
-                  type="number"
-                  max={selectedDonation.serves}
-                  placeholder="Enter number of serves"
-                  className="w-full border-gray-300 focus:ring-emerald-500 focus:border-emerald-500 rounded-lg p-2"
-                />
-              </div>
-
-              <div className="flex flex-col space-y-2">
-                <Label
-                  htmlFor="delivery-name"
-                  className="text-gray-700 font-medium"
-                >
-                  Delivery Person's Name
-                </Label>
-                <Input
-                  id="delivery-name"
-                  type="text"
-                  placeholder="Enter name"
-                  className="w-full border-gray-300 focus:ring-emerald-500 focus:border-emerald-500 rounded-lg p-2"
-                />
-              </div>
-
-              <div className="flex flex-col space-y-2">
-                <Label
-                  htmlFor="contact-number"
-                  className="text-gray-700 font-medium"
-                  >
-                  Contact Number
-                </Label>
-                <Input
-                  id="contact-number"
-                  type="tel"
-                  placeholder="Enter phone number"
-                  className="w-full border-gray-300 focus:ring-emerald-500 focus:border-emerald-500 rounded-lg p-2"
+              {/* Form Fields */}
+              <div className="space-y-5 mt-3">
+                <div className="flex flex-col space-y-2">
+                  <Label htmlFor="serves" className="text-gray-700 font-medium">
+                    Number of Serves
+                  </Label>
+                  <Input
+                    id="serves"
+                    type="number"
+                    max={selectedDonation.serves}
+                    placeholder="Enter number of serves"
+                    className="w-full border-gray-300 focus:ring-emerald-500 focus:border-emerald-500 rounded-lg p-2"
+                    {...orderForm.register("serves")}
                   />
-              </div>
-            </div>
+                </div>
 
-            {/* Buttons - Center Aligned */}
-            <div className="flex justify-center gap-4 mt-6">
-              <DialogClose asChild>
+                <div className="flex flex-col space-y-2">
+                  <Label htmlFor="deliveryName" className="text-gray-700 font-medium">
+                    Delivery Person's Name
+                  </Label>
+                  <Input
+                    id="deliveryName"
+                    type="text"
+                    placeholder="Enter name"
+                    className="w-full border-gray-300 focus:ring-emerald-500 focus:border-emerald-500 rounded-lg p-2"
+                    {...orderForm.register("deliveryName")}
+                  />
+                </div>
+
+                <div className="flex flex-col space-y-2">
+                  <Label htmlFor="contactNumber" className="text-gray-700 font-medium">
+                    Contact Number
+                  </Label>
+                  <Input
+                    id="contactNumber"
+                    type="tel"
+                    placeholder="Enter phone number"
+                    className="w-full border-gray-300 focus:ring-emerald-500 focus:border-emerald-500 rounded-lg p-2"
+                    {...orderForm.register("contactNumber")}
+                  />
+                </div>
+
+                <div className="flex flex-col space-y-2">
+                  <Label htmlFor="otp" className="text-gray-700 font-medium">
+                    OTP
+                  </Label>
+                  <Input
+                    id="otp"
+                    type="text"
+                    placeholder="Enter OTP"
+                    className="w-full border-gray-300 focus:ring-emerald-500 focus:border-emerald-500 rounded-lg p-2"
+                    value={otp}
+                    readOnly
+                  />
+                </div>
+              </div>
+
+              {/* Buttons - Center Aligned */}
+              <div className="flex justify-center gap-4 mt-6">
                 <Button
+                  type="button"
                   variant="outline"
                   className="border-gray-300 text-gray-700 hover:bg-gray-100 px-6 py-2 rounded-lg shadow-md cursor-pointer"
-                  >
-                  Cancel
+                  onClick={generateOtp}
+                >
+                  Generate OTP
                 </Button>
-              </DialogClose>
-              <Button className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded-lg shadow-md cursor-pointer">
-                Generate OTP
-              </Button>
-            </div>
-          </DialogContent>
-            </form>
+                <DialogClose asChild>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="border-gray-300 text-gray-700 hover:bg-gray-100 px-6 py-2 rounded-lg shadow-md cursor-pointer"
+                  >
+                    Cancel
+                  </Button>
+                </DialogClose>
+                <Button
+                  type="submit"
+                  className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded-lg shadow-md cursor-pointer"
+                >
+                  Place Order
+                </Button>
+              </div>
+            </DialogContent>
+          </form>
         </Dialog>
       </div>
     </>
