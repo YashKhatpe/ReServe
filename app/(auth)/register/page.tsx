@@ -223,7 +223,7 @@ catch (error) {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6">
               <h2 className="text-white text-2xl font-bold">
-                Making a difference, one donation at a time
+              Share a Meal, Spread the Love.
               </h2>
             </div>
           </div>
