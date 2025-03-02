@@ -26,7 +26,7 @@ export function CustomerSatisfaction() {
   return (
     <Card className="border-0 shadow-sm">
       <CardHeader className="pb-2">
-        <CardTitle className="text-lg font-medium">Customer Satisfaction</CardTitle>
+        <CardTitle className="text-lg font-medium">NGO & Donor Engagement</CardTitle>
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={200}>
@@ -72,11 +72,11 @@ export function CustomerSatisfaction() {
         <div className="flex justify-between mt-2 text-sm">
           <div className="flex flex-col items-center">
             <span className="text-gray-500">Last Month</span>
-            <span className="font-bold">$3,054</span>
+            <span className="font-bold">3,054</span>
           </div>
           <div className="flex flex-col items-center">
             <span className="text-gray-500">This Month</span>
-            <span className="font-bold">$4,504</span>
+            <span className="font-bold">4,504</span>
           </div>
         </div>
       </CardContent>

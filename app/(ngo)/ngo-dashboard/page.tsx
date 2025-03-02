@@ -28,13 +28,13 @@ export default function Home() {
           <div className="space-y-6">
             <div className="flex justify-between items-center">
               <div>
-                <h2 className="text-lg font-medium">Today's Sales</h2>
-                <p className="text-sm text-gray-500">Sales summary</p>
+                <h2 className="text-lg font-medium">Today's Serves</h2>
+                <p className="text-sm text-gray-500">Serves summary</p>
               </div>
               <div className=" flex gap-3">
 
-              <Link href="/donate">
-              <Button variant="default" className="bg-emerald-600 hover:bg-emerald-700 cursor-pointer">Donate</Button>
+              <Link href="/food-listing">
+              <Button variant="default" className="bg-emerald-600 hover:bg-emerald-700 cursor-pointer">Request Food</Button>
               </Link>
               <Button variant="outline" size="sm" className="gap-2">
                 <Download className="h-4 w-4" />
