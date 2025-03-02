@@ -54,9 +54,9 @@ export function Navbar() {
             <span className="font-bold text-lg">ReServe</span>
           </div>
           <nav className="hidden md:flex items-center gap-6">
-            <a href="#how-it-works" className="text-sm font-medium">How it works</a>
-            <a href="#impact" className="text-sm font-medium">Impact</a>
-            <a href="#benefits" className="text-sm font-medium">Benefits</a>
+            <a href="#how-it-works" className="text-lg font-medium">How it works</a>
+            <a href="#impact" className="text-lg font-medium">Impact</a>
+            <a href="#benefits" className="text-lg font-medium">Benefits</a>
           </nav>
           <div className="flex items-center gap-2">
             {userType === "donor" ? (
