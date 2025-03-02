@@ -26,7 +26,7 @@ export function TotalRevenue() {
   return (
     <Card className="border-0 shadow-sm">
       <CardHeader className="pb-2">
-        <CardTitle className="text-lg font-medium">Total Revenue</CardTitle>
+        <CardTitle className="text-lg font-medium">Total Meals Served Per Day</CardTitle>
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={200}>
@@ -53,14 +53,14 @@ export function TotalRevenue() {
             />
             <Bar 
               dataKey="online" 
-              name="Online Sales" 
+              name="Days of the week" 
               fill="#3b82f6" 
               radius={[4, 4, 0, 0]} 
               barSize={20} 
             />
             <Bar 
               dataKey="offline" 
-              name="Offline Sales" 
+              name="Number of meals" 
               fill="#10b981" 
               radius={[4, 4, 0, 0]} 
               barSize={20} 
