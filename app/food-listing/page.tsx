@@ -33,6 +33,7 @@ export default function FoodListingPage() {
           }
           const { data: { user } } = await supabase.auth.getUser();
           if (!user) {
+            
             console.error("User is not authenticated");
             return donation;
           }

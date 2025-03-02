@@ -1,8 +1,8 @@
 "use client";
 
-import Image from 'next/image';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 // import { Separator } from '@/components/ui/separator';
 import {
   ShoppingBag,
@@ -12,29 +12,57 @@ import {
   Heart,
   Utensils,
   Banknote,
-  Clock
-} from 'lucide-react';
-import Link from 'next/link';
+  Clock,
+} from "lucide-react";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
-import { Navbar } from '@/components/Navbar';
+import { Navbar } from "@/components/Navbar";
 
 export default function Home() {
   const [userId, setUserId] = useState<string | null>(null);
+  const [userType, setUserType] = useState<"donor" | "ngo" | null>(null);
   const router = useRouter();
+
+  // useEffect(() => {
+  //   async function checkAuth() {
+  //     const { data: { user } } = await supabase.auth.getUser();
+  //     console.log("here");
+  //     console.log(user);
+  //     if (!user) {
+  //       // router.push("/login");
+  //       return;
+  //     }
+
+  //     setUserId(user.id);
+  //   }
+
+  //   checkAuth();
+  // }, [router]);
 
   useEffect(() => {
     async function checkAuth() {
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       console.log("here");
       console.log(user);
       if (!user) {
-        // router.push("/login");
+        router.push("/login");
         return;
       }
 
       setUserId(user.id);
+      const { data: donorData } = await supabase
+        .from("donor")
+        .select("id")
+        .eq("id", user.id)
+        .single();
+
+      // const typeuser = donorData ? "donor" : "ngo"
+      setUserType(donorData ? "donor" : "ngo");
+      // console.log(typeuser);
     }
 
     checkAuth();
@@ -43,7 +71,7 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen ">
       {/* Navigation */}
-     <Navbar/>
+      <Navbar />
 
       <main className="flex-1">
         {/* Hero Section */}
@@ -68,9 +96,15 @@ export default function Home() {
                   Every Meal Saved, Every Life Nourished
                 </p>
                 <div className="flex justify-center gap-4">
-                  <Button className="bg-emerald-600 hover:bg-emerald-700 cursor-pointer">
-                    Donate
-                  </Button>
+                  {userType === "donor" ? (
+                    <Link href="/donate">
+                    <Button variant="default" className="bg-emerald-600 hover:bg-emerald-700 cursor-pointer">Donate</Button>
+                    </Link>
+                  ) : (
+                    <Link href="/food-listing">
+              <Button variant="default" className="bg-emerald-600 hover:bg-emerald-700 cursor-pointer">Request Food</Button>
+              </Link>
+                  )}
                   <Button
                     variant="outline"
                     className="bg-white hover:bg-gray-100 cursor-pointer"
@@ -227,42 +261,29 @@ export default function Home() {
             </div>
           </section>
 
-          {/* Testimonials */}
-          {/* <section id="testimonials" className="mb-16">
-            <div className="flex justify-center gap-6 mb-8">
-              <div className="text-center">
-                <div className="w-24 h-24 bg-rose-200 rounded-lg mb-2 mx-auto relative overflow-hidden">
-                  <Heart className="absolute inset-0 m-auto text-rose-500 h-12 w-12" />
-                </div>
-                <div>Lauren S</div>
-              </div>
-              <div className="text-center">
-                <div className="w-24 h-24 bg-rose-200 rounded-lg mb-2 mx-auto relative overflow-hidden">
-                  <Heart className="absolute inset-0 m-auto text-rose-500 h-12 w-12" />
-                </div>
-                <div>David M</div>
-              </div>
-              <div className="text-center">
-                <div className="w-24 h-24 bg-rose-200 rounded-lg mb-2 mx-auto relative overflow-hidden">
-                  <Heart className="absolute inset-0 m-auto text-rose-500 h-12 w-12" />
-                </div>
-                <div>Sarah T</div>
-              </div>
-            </div>
-          </section> */}
-
-          {/* CTA */}
+          {userType === "donor" ? (
+            
           <section className="text-center mb-16">
             <h2 className="text-3xl font-bold mb-8">
               Ready to donate your food?
             </h2>
-            <Button
-              size="lg"
-              className="bg-emerald-600 hover:bg-emerald-700 cursor-pointer"
-            >
-              Donate
-            </Button>
+            <Link href="/donate">
+              <Button variant="default" className="bg-emerald-600 hover:bg-emerald-700 cursor-pointer">Donate</Button>
+              </Link>
           </section>
+          ) : (
+          <section className="text-center mb-16">
+            <h2 className="text-3xl font-bold mb-8">
+              Searching restaurants for requesting food?
+            </h2>
+            <Link href="/food-listing">
+              <Button variant="default" className="bg-emerald-600 hover:bg-emerald-700 cursor-pointer">Request Food</Button>
+              </Link>
+          </section>
+           
+          )}
+
+          {/* CTA */}
         </section>
       </main>
 

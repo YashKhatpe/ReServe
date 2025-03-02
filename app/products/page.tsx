@@ -19,6 +19,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/lib/supabase";
 import { v4 as uuidv4 } from "uuid";
+import { toast } from "sonner";
 
 export default function ProductDetailPage() {
     const { selectedDonation } = useDonation();
@@ -83,9 +84,15 @@ export default function ProductDetailPage() {
                 },
             ]);
             if (error) throw error;
+            toast("Success", {
+                description:"The order was placed successfully"
+            })
             console.log("Order placed successfully!");
             setIsOpen(false);
         } catch (error: any) {
+            toast("Fail", {
+                description:"Error placing order"
+            })
             console.error("Error placing order:", error.message);
         }
     };
@@ -195,7 +202,7 @@ export default function ProductDetailPage() {
                                 <Label htmlFor="delivery_person_phone_no">Number of Delivery Person</Label>
                                 <Input
                                     id="delivery_person_phone_no"
-                                    type="number"
+                                    type="tel"
                                     value={delivery_person_phone_no}
                                     onChange={(e) => setDeliveryPersonPhoneNo(e.target.value)}
                                     placeholder="Enter number of serves"

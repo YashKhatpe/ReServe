@@ -1,5 +1,4 @@
 "use client";
-import { Heart } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -12,8 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { supabase } from "@/lib/supabase";
-import { useToast } from "@/hooks/use-toast";
-
+import { toast } from 'sonner';
 const loginFormSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address." }),
   password: z.string().min(1, { message: "Password is required." }),
@@ -21,7 +19,6 @@ const loginFormSchema = z.object({
 
 export default function LoginPage() {
   const router = useRouter();
-  const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof loginFormSchema>>({
@@ -42,8 +39,7 @@ export default function LoginPage() {
 
       if (error) throw error;
 
-      toast({
-        title: "Login successful!",
+      toast("Login Successful",{
         description: "You are now logged in.",
       });
 
@@ -70,10 +66,8 @@ export default function LoginPage() {
         }
       }
     } catch (error: any) {
-      toast({
-        title: "Login failed",
+      toast("Login Failed", {
         description: error.message || "Invalid email or password.",
-        variant: "destructive"
       });
     } finally {
       setIsLoading(false);
@@ -83,20 +77,6 @@ export default function LoginPage() {
   return (
 
     <div className="min-h-screen bg-stone-50 flex flex-col">
-      {/* Header */}
-      {/* <header className="border-b bg-white">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="font-bold text-lg flex items-center gap-2">
-            <Heart className="h-5 w-5 text-emerald-600" />
-            <span>Donation Hub</span>
-          </Link>
-          <div className="flex items-center gap-3">
-            <Button variant="outline" size="sm" asChild>
-              <Link href="/register">Register</Link>
-            </Button>
-          </div>
-        </div>
-      </header> */}
 
       {/* Main content */}
       <main className="flex-1 flex items-center justify-center p-6">
@@ -178,14 +158,6 @@ export default function LoginPage() {
           </div>
         </div>
       </main>
-
-      {/* <footer className="border-t py-4 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center text-sm text-gray-500">
-            © 2025 Donation Hub. All rights reserved.
-          </div>
-        </div>
-      </footer> */}
     </div>
   );
 }
