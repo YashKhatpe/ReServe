@@ -31,7 +31,7 @@ export function TargetVsReality() {
   return (
     <Card className="border-0 shadow-sm">
       <CardHeader className="pb-2">
-        <CardTitle className="text-lg font-medium">Target vs Reality</CardTitle>
+        <CardTitle className="text-lg font-medium">Meals Served vs Goal</CardTitle>
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={200}>
@@ -58,14 +58,14 @@ export function TargetVsReality() {
             />
             <Bar 
               dataKey="reality" 
-              name="Reality Sales" 
+              name="Actual Meals Served" 
               fill="#facc15" 
               radius={[4, 4, 0, 0]} 
               barSize={10} 
             />
             <Bar 
               dataKey="target" 
-              name="Target Sales" 
+              name="Target Meals" 
               fill="#10b981" 
               radius={[4, 4, 0, 0]} 
               barSize={10} 
@@ -76,16 +76,16 @@ export function TargetVsReality() {
           <div className="flex flex-col">
             <div className="flex items-center gap-2">
               <div className="h-3 w-3 rounded-full bg-yellow-400"></div>
-              <span className="text-xs text-gray-500">Reality Sales</span>
+              <span className="text-xs text-gray-500">Actual Meals Served</span>
             </div>
-            <span className="font-bold">$8,523</span>
+            <span className="font-bold">8,523</span>
           </div>
           <div className="flex flex-col">
             <div className="flex items-center gap-2">
               <div className="h-3 w-3 rounded-full bg-emerald-500"></div>
-              <span className="text-xs text-gray-500">Target Sales</span>
+              <span className="text-xs text-gray-500">Target Meals</span>
             </div>
-            <span className="font-bold">$7,023</span>
+            <span className="font-bold">7,023</span>
           </div>
         </div>
       </CardContent>
