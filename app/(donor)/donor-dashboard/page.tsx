@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Sidebar } from "@/components/sidebar";
@@ -18,8 +20,41 @@ import {
   Download
 } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
 
 export default function Home() {
+  const [loading, setLoading] = useState(false);
+
+  const handleExport = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch("http://localhost:3000/api/excelExport");
+
+      if (!response.ok) {
+        console.error("Failed to download Excel file", response);
+        throw new Error("Failed to download Excel file ${response}");
+      }
+
+      // Convert response to Blob (binary data)
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+
+      // Create a temporary <a> element to trigger the download
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "orders.xlsx";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+
+      // Release the Blob URL
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error downloading Excel:", error);
+    }
+    setLoading(false);
+  };
+
   return (
     <div className="flex h-screen bg-gray-50">
       <div className="w-64 flex-shrink-0">
@@ -39,9 +74,9 @@ export default function Home() {
               <Link href="/donate">
               <Button variant="default" className="bg-emerald-600 hover:bg-emerald-700 cursor-pointer">Donate</Button>
               </Link>
-              <Button variant="outline" size="sm" className="gap-2">
+              <Button onClick={handleExport} variant="outline" size="sm" className="gap-2">
                 <Download className="h-4 w-4" />
-                Export
+                {loading ? "Exporting..." : "Export to Excel"}
               </Button>
               </div>
             </div>
@@ -50,33 +85,33 @@ export default function Home() {
               <StatsCard 
                 icon={<DollarSign className="h-5 w-5 text-white" />}
                 iconBg="bg-red-400"
-                title="Total Sales"
-                value="$1k"
-                change="+4.5% from yesterday"
+                title="Total Today's Donation"
+                value="Rs. 1000"
+                change="+4.5% "
                 trend="up"
               />
               <StatsCard 
                 icon={<ShoppingCart className="h-5 w-5 text-white" />}
                 iconBg="bg-yellow-400"
-                title="Total Order"
+                title="Total Donations"
                 value="300"
-                change="-1.5% from yesterday"
+                change="-1.5% "
                 trend="down"
               />
               <StatsCard 
                 icon={<Package className="h-5 w-5 text-white" />}
                 iconBg="bg-green-400"
-                title="Product Sold"
+                title="Number of Donors"
                 value="5"
-                change="+2.5% from yesterday"
+                change="+2.5% "
                 trend="up"
               />
               <StatsCard 
                 icon={<Users className="h-5 w-5 text-white" />}
                 iconBg="bg-purple-400"
-                title="New Customers"
-                value="8"
-                change="+0.5% from yesterday"
+                title="Number of people served"
+                value="350"
+                change="+0.5% "
                 trend="up"
               />
             </div>
@@ -87,14 +122,14 @@ export default function Home() {
             </div>
             
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <CustomerSatisfaction />
-              <TargetVsReality />
+              {/* <CustomerSatisfaction /> */}
+              {/* <TargetVsReality /> */}
             </div>
             
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <TopProducts />
+              {/* <TopProducts /> */}
               {/* <SalesMapping /> */}
-              <VolumeVsService />
+              {/* <VolumeVsService /> */}
             </div>
           </div>
         </main>

@@ -28,7 +28,7 @@ import {
 } from "@/components/ui/select";
 import { supabase } from "@/lib/supabase";
 import { FOOD_PREFERENCES, STORAGE_OPTIONS } from "@/lib/constants";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ImageIcon } from "lucide-react";
 import { v4 as uuidv4 } from "uuid";
 
 import { toast } from "sonner";
@@ -37,12 +37,7 @@ const donationFormSchema = z.object({
   food_name: z
     .string()
     .min(2, { message: "Food name must be at least 2 characters." }),
-  food_image: z
-    .string()
-    .trim()
-    .url({ message: "Please enter a valid URL for the food image." })
-    .optional()
-    .or(z.literal("")),
+  food_image: z.instanceof(File, { message: "Please upload a image file." }),
   preparation_date_time: z
     .string()
     .min(1, { message: "Preparation date and time is required." }),
@@ -57,14 +52,15 @@ const donationFormSchema = z.object({
   preferred_pickup_time: z
     .string()
     .min(1, { message: "Preferred pickup time is required." }),
-  additional_notes: z.string().optional(),
+  // additional_notes: z.string().optional(),
 });
 
 export default function DonatePage() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
-  // const [files, setFiles] = useState < File[] | null > (null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   useEffect(() => {
     async function checkAuth() {
@@ -87,18 +83,20 @@ export default function DonatePage() {
     resolver: zodResolver(donationFormSchema),
     defaultValues: {
       food_name: "",
-      food_image: "",
       preparation_date_time: "",
       expiry_date_time: "",
       food_type: "",
       serves: 1,
       storage: "",
       preferred_pickup_time: "",
-      additional_notes: "",
+      // additional_notes: "",
     },
   });
 
+
+
   async function onSubmit(data: z.infer<typeof donationFormSchema>) {
+    console.log(data);
     if (!userId) {
       toast("Auth Error", {
         description: "You must be logged in to donate food.",
@@ -107,34 +105,58 @@ export default function DonatePage() {
     }
 
     try {
+      setIsLoading(true);
+      let foodImageUrl = null;
+
+      // Upload image to Supabase Storage if a file is selected
+
+      const file = data.food_image;
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${uuidv4()}.${fileExt}`;
+      const filePath = `${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('food_image')
+        .upload(fileName, file, { cacheControl: '3600', upsert: false });
+
+      if (uploadError) throw uploadError;
+
+      // Get the public URL for the uploaded file
+      const { data: publicUrlData } = supabase.storage
+        .from('food_image')
+        .getPublicUrl(fileName);
+
+      if (publicUrlData) {
+        foodImageUrl = publicUrlData.publicUrl;
+      }
+      
+
       const uniqueId = uuidv4();
       const { error } = await supabase.from("donor_form").insert({
         id: uniqueId,
         food_name: data.food_name,
-        food_image: data.food_image || null,
-        preparation_date_time: new Date(
-          data.preparation_date_time
-        ).toISOString(),
+        food_image: foodImageUrl,
+        preparation_date_time: new Date(data.preparation_date_time).toISOString(),
         expiry_date_time: new Date(data.expiry_date_time).toISOString(),
         food_type: data.food_type,
         serves: data.serves,
         storage: data.storage,
         preferred_pickup_time: data.preferred_pickup_time,
         donor_id: userId,
-        created_at: new Date(),
+        // additional_notes: data.additional_notes || null,
+        created_at: new Date().toISOString(),
       });
-      console.log(error);
+
       if (error) throw error;
 
       toast("Donation Created", {
         description: "Your food donation has been listed successfully.",
       });
 
-      router.push("/donor/dashboard");
+      router.push("/donor-dashboard");
     } catch (error: any) {
       toast("Error Creating Donation", {
-        description:
-          error.message || "Could not create your donation. Please try again.",
+        description: error.message || "Could not create your donation. Please try again.",
       });
     } finally {
       setIsLoading(false);
@@ -146,7 +168,7 @@ export default function DonatePage() {
       <div className="container mx-auto py-8">
         <Button
           variant="ghost"
-          className=" flex items-center text-primary"
+          className="flex items-center text-primary"
           onClick={() => router.push("/donor-dashboard")}
         >
           <ArrowLeft className="mr-2 h-4 w-4" /> Back to Dashboard
@@ -179,26 +201,19 @@ export default function DonatePage() {
                   )}
                 />
 
-                <FormField
-                  control={form.control}
-                  name="food_image"
-                  render={({ field: { onChange, ...rest } }) => (
-                    <FormItem>
-                      <FormLabel>Food Image</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="file"
-                          accept="image/*"
-                          onChange={(e) => {
-                            onChange(e.target.files?.[0]); // Capture the file
-                          }}
-                          {...rest}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+            <FormField
+              control={form.control}
+              name="food_image"
+              render={({ field: { onChange } }) => (
+                <FormItem>
+                  <FormLabel>Food Image</FormLabel>
+                  <FormControl>
+                    <Input type="file" accept="image/*" onChange={(e) => onChange(e.target.files?.[0])} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <FormField
@@ -327,7 +342,7 @@ export default function DonatePage() {
                   />
                 </div>
 
-                <FormField
+                {/* <FormField
                   control={form.control}
                   name="additional_notes"
                   render={({ field }) => (
@@ -343,7 +358,7 @@ export default function DonatePage() {
                       <FormMessage />
                     </FormItem>
                   )}
-                />
+                /> */}
 
                 <Button
                   type="submit"

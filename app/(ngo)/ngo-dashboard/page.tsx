@@ -47,33 +47,33 @@ export default function Home() {
               <StatsCard 
                 icon={<DollarSign className="h-5 w-5 text-white" />}
                 iconBg="bg-red-400"
-                title="Total Sales"
-                value="$1k"
-                change="+4.5% from yesterday"
+                title="Total Meals Served"
+                value="500 Meals"
+                change="+2.5% "
                 trend="up"
               />
               <StatsCard 
                 icon={<ShoppingCart className="h-5 w-5 text-white" />}
                 iconBg="bg-yellow-400"
-                title="Total Order"
-                value="300"
-                change="-1.5% from yesterday"
+                title="Total Donations Received"
+                value="300 Donations"
+                change="+1.5% "
                 trend="down"
               />
               <StatsCard 
                 icon={<Package className="h-5 w-5 text-white" />}
                 iconBg="bg-green-400"
-                title="Product Sold"
-                value="5"
-                change="+2.5% from yesterday"
+                title="Meals Received From"
+                value="5 Locations"
+                change="+4.5% "
                 trend="up"
               />
               <StatsCard 
                 icon={<Users className="h-5 w-5 text-white" />}
                 iconBg="bg-purple-400"
-                title="New Customers"
+                title="New Volunteers"
                 value="8"
-                change="+0.5% from yesterday"
+                change="+0.5% "
                 trend="up"
               />
             </div>
@@ -84,14 +84,14 @@ export default function Home() {
             </div>
             
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <CustomerSatisfaction />
-              <TargetVsReality />
+              {/* <CustomerSatisfaction /> */}
+              {/* <TargetVsReality /> */}
             </div>
             
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <TopProducts />
+              {/* <TopProducts /> */}
               {/* <SalesMapping /> */}
-              <VolumeVsService />
+              {/* <VolumeVsService /> */}
             </div>
           </div>
         </main>

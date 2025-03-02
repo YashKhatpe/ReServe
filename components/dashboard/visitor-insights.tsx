@@ -31,7 +31,7 @@ export function VisitorInsights() {
   return (
     <Card className="border-0 shadow-sm">
       <CardHeader className="pb-2">
-        <CardTitle className="text-lg font-medium">Visitor Insights</CardTitle>
+        <CardTitle className="text-lg font-medium">Active Donors & NGOs</CardTitle>
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={200}>
@@ -60,7 +60,7 @@ export function VisitorInsights() {
               type="monotone" 
               dataKey="loyal" 
               stroke="#6366f1" 
-              name="Loyal Customers" 
+              name="Active Donors" 
               strokeWidth={2} 
               dot={false} 
               activeDot={{ r: 6 }} 
@@ -69,7 +69,7 @@ export function VisitorInsights() {
               type="monotone" 
               dataKey="new" 
               stroke="#ef4444" 
-              name="New Customers" 
+              name="New Donors" 
               strokeWidth={2} 
               dot={false} 
               activeDot={{ r: 6 }} 
@@ -78,7 +78,7 @@ export function VisitorInsights() {
               type="monotone" 
               dataKey="unique" 
               stroke="#10b981" 
-              name="Unique Customers" 
+              name="Meals Served" 
               strokeWidth={2} 
               dot={false} 
               activeDot={{ r: 6 }} 
