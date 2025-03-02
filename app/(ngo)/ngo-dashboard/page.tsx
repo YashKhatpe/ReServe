@@ -48,14 +48,14 @@ export default function Home() {
                 icon={<DollarSign className="h-5 w-5 text-white" />}
                 iconBg="bg-red-400"
                 title="Total Meals Served"
-                value="1,000 Meals"
-                change="+4.5% from yesterday"
+                value="500 Meals"
+                change="+2.5% from yesterday"
                 trend="up"
               />
               <StatsCard 
                 icon={<ShoppingCart className="h-5 w-5 text-white" />}
                 iconBg="bg-yellow-400"
-                title="Total Donations"
+                title="Total Donations Received"
                 value="300 Donations"
                 change="+1.5% from yesterday"
                 trend="down"
@@ -63,9 +63,9 @@ export default function Home() {
               <StatsCard 
                 icon={<Package className="h-5 w-5 text-white" />}
                 iconBg="bg-green-400"
-                title="Meals Delivered"
+                title="Meals Received From"
                 value="5 Locations"
-                change="+2.5% from yesterday"
+                change="+4.5% from yesterday"
                 trend="up"
               />
               <StatsCard 
@@ -84,14 +84,14 @@ export default function Home() {
             </div>
             
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <CustomerSatisfaction />
-              <TargetVsReality />
+              {/* <CustomerSatisfaction /> */}
+              {/* <TargetVsReality /> */}
             </div>
             
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <TopProducts />
+              {/* <TopProducts /> */}
               {/* <SalesMapping /> */}
-              <VolumeVsService />
+              {/* <VolumeVsService /> */}
             </div>
           </div>
         </main>

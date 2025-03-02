@@ -51,13 +51,7 @@ export function TotalRevenue() {
               align="center"
               wrapperStyle={{ fontSize: 12 }}
             />
-            <Bar 
-              dataKey="online" 
-              name="Days of the week" 
-              fill="#3b82f6" 
-              radius={[4, 4, 0, 0]} 
-              barSize={20} 
-            />
+            
             <Bar 
               dataKey="offline" 
               name="Number of meals" 

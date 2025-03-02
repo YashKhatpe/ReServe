@@ -26,7 +26,7 @@ export function StatsCard({ icon, iconBg, title, value, change, trend }: StatsCa
               "text-xs mt-1",
               trend === "up" ? "text-green-500" : "text-green-500"
             )}>
-              {change} from yesterday
+              {change}
             </div>
           </div>
         </div>
