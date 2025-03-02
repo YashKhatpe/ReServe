@@ -33,7 +33,7 @@ export default function ProductDetailPage() {
 
     useEffect(() => {
         if (!selectedDonation) {
-            router.push("/donate");
+            router.push("/food-listing");
         }
     }, [selectedDonation, router]);
 
@@ -81,6 +81,7 @@ export default function ProductDetailPage() {
                     created_at: new Date(),
                     delivery_person_name: delivery_person_name,
                     delivery_person_phone_no: delivery_person_phone_no,
+                    delivery_status: "delivering"   
                 },
             ]);
             if (error) throw error;
@@ -132,7 +133,7 @@ export default function ProductDetailPage() {
                                     <MapPin className="w-5 h-5 text-muted-foreground" />
                                     <div>
                                         <p className="font-medium">Pickup Location</p>
-                                        <p className="text-sm text-muted-foreground">0.5 km away</p>
+                                        <p className="text-sm text-muted-foreground">{Math.round(selectedDonation.distance * 100)/100} km away</p>
                                     </div>
                                 </div>
 
@@ -153,6 +154,36 @@ export default function ProductDetailPage() {
                                         </p>
                                     </div>
                                 </div>
+                                <div className="flex items-center gap-2">
+                                    <Clock className="w-5 h-5 text-muted-foreground" />
+                                    <div>
+                                        <p className="font-medium">Preparation Date</p>
+                                        <p className="text-sm text-muted-foreground">
+                                            {new Date(selectedDonation.preparation_date_time).toLocaleDateString()} {" "}
+                                            {new Date(selectedDonation.preparation_date_time).toLocaleTimeString()}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <Clock className="w-5 h-5 text-muted-foreground" />
+                                    <div>
+                                        <p className="font-medium">Expiry Date</p>
+                                        <p className="text-sm text-muted-foreground">
+                                        {new Date(selectedDonation.expiry_date_time).toLocaleDateString()} {" "}
+                                        {new Date(selectedDonation.expiry_date_time).toLocaleTimeString()}
+                                        </p>
+                                    </div>
+                                </div>
+                                
+                                <div className="flex items-center gap-2">
+                                    <Clock className="w-5 h-5 text-muted-foreground" />
+                                    <div>
+                                        <p className="font-medium">Storage Type</p>
+                                        <p className="text-sm text-muted-foreground">
+                                            {selectedDonation.storage}
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
                         </CardContent>
                     </Card>
@@ -162,7 +193,10 @@ export default function ProductDetailPage() {
                     <Button
                         variant="default"
                         className="bg-emerald-600 hover:bg-emerald-700 p-6 cursor-pointer"
-                        onClick={() => setIsOpen(true)}
+                        onClick={() => {
+                            setIsOpen(true)
+                            generateOTP()
+                        }}
                     >
                         Request Food
                     </Button>
@@ -216,13 +250,14 @@ export default function ProductDetailPage() {
                                         id="otp"
                                         type="text"
                                         value={otp}
+                                        disabled
                                         onChange={(e) => setOtp(e.target.value)}
                                         placeholder="Enter OTP"
                                         className="w-full"
                                     />
-                                    <Button type="button" onClick={generateOTP} className="bg-blue-500">
+                                    {/* <Button type="button" onClick={generateOTP} className="bg-blue-500">
                                         Generate OTP
-                                    </Button>
+                                    </Button> */}
                                 </div>
                             </div>
                         </div>
