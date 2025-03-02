@@ -84,6 +84,13 @@ export default function OrderDetailsPage() {
         fetchOrders();
       }, []);
       
+      useEffect(() => {
+        if (filter === "ALL") {
+          setFilteredOrders(orders);
+        } else {
+          setFilteredOrders(orders.filter(order => order.delivery_status === filter.toLowerCase()));
+        }
+      }, [filter, orders]);
       
     const ratingCaptions = ["Terrible", "Bad", "Average", "Good", "Excellent"];
 
