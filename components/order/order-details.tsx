@@ -73,15 +73,12 @@ function StatusStep({ status, currentStatus, label, icon: Icon, isLast = false }
 }
 
 
-type OrderStatus = 'pending' | 'processing' | 'in-transit' | 'delivered' | 'cancelled';
+type OrderStatus = 'delivered' | 'delivering';
 // Helper function to get status order for comparison
 function getStatusOrder(status:OrderStatus) {
   const order = {
-    'pending': 0,
-    'processing': 1,
-    'in-transit': 2,
+    'delivering': 0,
     'delivered': 3,
-    'cancelled': -1
   };
   return order[status] || 0;
 }
@@ -89,11 +86,9 @@ function getStatusOrder(status:OrderStatus) {
 // Helper function to get status message
 function getStatusMessage(status : OrderStatus) {
   const messages = {
-    'pending': 'Your order has been received and is awaiting processing.',
-    'processing': 'Your order is being prepared for shipment.',
-    'in-transit': 'Your order is on its way to the delivery address.',
+    'delivering': 'Your order is in the delivering phase',
     'delivered': 'Your order has been successfully delivered.',
-    'cancelled': 'This order has been cancelled.'
+    
   };
   return messages[status] || '';
 }
@@ -109,7 +104,7 @@ interface OrderItem {
     deliveryDate: string;
     address: string;
     contact: string;
-    status: "pending" | "processing" | "in-transit" | "delivered" | "cancelled";
+    status: "delivered" | "delivering";
     items: OrderItem[];
     total: string;
   }
@@ -122,7 +117,7 @@ interface OrderItem {
 
 export function OrderDetails({ order, onClose }:OrderDetailsProps) {
   // Don't show the tracking steps for cancelled orders
-  const showTrackingSteps = order.status !== 'cancelled';
+  const showTrackingSteps = order.status !== 'delivering';
 
   return (
     <Dialog open={true} onOpenChange={onClose}>
@@ -196,22 +191,10 @@ export function OrderDetails({ order, onClose }:OrderDetailsProps) {
               <h3 className="text-sm font-medium text-gray-500 mb-4">Order Status</h3>
               <div className="space-y-0">
                 <StatusStep 
-                  status="pending" 
+                  status="delivering" 
                   currentStatus={order.status} 
                   label="Order Placed" 
                   icon={Clock} 
-                />
-                <StatusStep 
-                  status="processing" 
-                  currentStatus={order.status} 
-                  label="Processing" 
-                  icon={Package} 
-                />
-                <StatusStep 
-                  status="in-transit" 
-                  currentStatus={order.status} 
-                  label="In Transit" 
-                  icon={Truck} 
                 />
                 <StatusStep 
                   status="delivered" 

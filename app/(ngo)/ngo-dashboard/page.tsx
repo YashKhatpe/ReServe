@@ -33,8 +33,8 @@ export default function Home() {
               </div>
               <div className=" flex gap-3">
 
-              <Link href="/donate">
-              <Button variant="default" className="bg-emerald-600 hover:bg-emerald-700 cursor-pointer">Donate</Button>
+              <Link href="/food-listing">
+              <Button variant="default" className="bg-emerald-600 hover:bg-emerald-700 cursor-pointer">Request Food</Button>
               </Link>
               <Button variant="outline" size="sm" className="gap-2">
                 <Download className="h-4 w-4" />

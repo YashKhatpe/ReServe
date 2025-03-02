@@ -23,7 +23,7 @@ const sidebarItems = [
   },
   {
     name: "Order",
-    href: "/order",
+    href: "/order-details",
     icon: ShoppingCart,
   },
   {
@@ -79,18 +79,6 @@ export function Sidebar() {
           Sign Out
         </Link>
       </div>
-      {/* <div className="p-4 bg-indigo-50 rounded-lg mx-4 mb-4">
-        <div className="flex flex-col items-center text-center">
-          <div className="h-10 w-10 rounded-full bg-indigo-600 flex items-center justify-center mb-2">
-            <span className="text-white font-bold">D</span>
-          </div>
-          <h3 className="font-bold text-indigo-700">Dabang Pro</h3>
-          <p className="text-xs text-gray-500 mt-1 mb-2">Get access to all features</p>
-          <button className="bg-white text-indigo-600 border border-indigo-600 rounded-md px-4 py-1 text-sm font-medium">
-            Get Pro
-          </button>
-        </div>
-      </div> */}
     </div>
   );
 }
