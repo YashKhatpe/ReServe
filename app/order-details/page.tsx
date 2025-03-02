@@ -28,31 +28,19 @@ export default function OrderDetailsPage() {
     const [filter, setFilter] = useState<string>("ALL");
     const [orders, setOrders] = useState<Orders[]| []>([]);
     const [filteredOrders, setFilteredOrders] = useState<Orders[] | []>([]);
-    // const deliveryStatus: { [key: string]: string } = {
-    //     "#123456": "Delivered",
-    //     "#123457": "Delivering",
-    // };
 
-    // const orders = [
-    //     {
-    //         orderId: "#123456",
-    //         ngoName: "Helping Hands Foundation",
-    //         item: "Butter Chicken",
-    //         serves: "4 People",
-    //         deliveryPerson: "Amit Sharma",
-    //         contact: "+91 9876543210",
-    //         rating: 5,
-    //         feedback: "Great service! The food was warm and delivered on time.",
-    //     },
-    //     {
-    //         orderId: "#123457",
-    //         ngoName: "Food for All Initiative",
-    //         item: "Dal Rice",
-    //         serves: "3 People",
-    //         deliveryPerson: "Ravi Kumar",
-    //         contact: "+91 9823456789",
-    //     },
-    // ];
+    const handleStatusChange = (orderId: string, newStatus: 'delivering' | 'delivered') => {
+        setOrders((prevOrders) =>
+          prevOrders.map((order) =>
+            order.id === orderId ? { ...order, delivery_status: newStatus } : order
+          )
+        );
+        setFilteredOrders((prevOrders) =>
+          prevOrders.map((order) =>
+            order.id === orderId ? { ...order, delivery_status: newStatus } : order
+          )
+        );
+      };
 
     useEffect(() => {
         const fetchOrders = async () => {
@@ -98,14 +86,6 @@ export default function OrderDetailsPage() {
       
       
     const ratingCaptions = ["Terrible", "Bad", "Average", "Good", "Excellent"];
-    // let filteredOrders;
-    // if(orders.length != 0) {
-
-    //     filteredOrders = orders.filter((order) => {
-    //         if (filter === "ALL") return true;
-    //         return deliveryStatus[order.id] === filter;
-    //     });
-    // }
 
     return (    
         <>
@@ -133,21 +113,17 @@ export default function OrderDetailsPage() {
                         <thead>
                             <tr className="bg-gray-100 text-gray-900">
                                 <th className="p-4 border border-gray-300">Order ID</th>
-                                {/* <th className="p-4 border border-gray-300">NGO Name</th> */}
                                 <th className="p-4 border border-gray-300">Delivery Status</th>
-                                {/* <th className="p-4 border border-gray-300">Item Ordered</th> */}
                                 <th className="p-4 border border-gray-300">Serves</th>
                                 <th className="p-4 border border-gray-300">Delivery Person</th>
                                 <th className="p-4 border border-gray-300">Contact</th>
-                                {filter !== "Delivering" && <th className="p-4 border border-gray-300">Rating</th>}
-                                {filter !== "Delivering" && <th className="p-4 border border-gray-300">Feedback</th>}
+                                {filter !== "Delivering" && <th className="p-4 border border-gray-300">Actions</th>}
                             </tr>
                         </thead>
                         <tbody>
                             {filteredOrders && filteredOrders.map((order) => (
                                 <tr key={order.id} className="border-b border-gray-300">
                                     <td className="p-4 border border-gray-300">{order.id}</td>
-                                    {/* <td className="p-4 border border-gray-300">{order.ngo.name}</td> */}
                                     <td className="p-4 border border-gray-300">
                                         <span
                                             className={`px-3 py-1 rounded-md font-medium ${
@@ -159,37 +135,17 @@ export default function OrderDetailsPage() {
                                             {order.delivery_status ?? "delivering"}
                                         </span>
                                     </td>
-                                    {/* <td className="p-4 border border-gray-300">{order.donor_form.food_name}</td> */}
                                     <td className="p-4 border border-gray-300">{order.serves}</td>
                                     <td className="p-4 border border-gray-300">{order.delivery_person_name}</td>
                                     <td className="p-4 border border-gray-300">{order.delivery_person_phone_no}</td>
-
-                                    {/* Rating (only for Delivered orders) */}
-                                    {order.delivery_status === "delivered" && (
-                                        <td className="p-4 border border-gray-300 text-center">
-                                            <div className="flex justify-center space-x-1">
-                                                {[1, 2, 3, 4, 5].map((star) => (
-                                                    <Star
-                                                        key={star}
-                                                        className={`w-6 h-6 ${
-                                                            star <= (order.rating || 0) ? "text-yellow-500" : "text-gray-300"
-                                                        }`}
-                                                        fill={star <= (order.rating || 0) ? "currentColor" : "none"}
-                                                        stroke="currentColor"
-                                                    />
-                                                ))}
-                                            </div>
-                                            {order.rating && (
-                                                <span className="text-sm text-gray-700 mt-1 block">
-                                                    {ratingCaptions[order.rating - 1]}
-                                                </span>
-                                            )}
+                                    {filter !== "Delivering" && (
+                                        <td className="p-4 border border-gray-300">
+                                            <Button
+                                                onClick={() => handleStatusChange(order.id, order.delivery_status === 'delivering' ? 'delivered' : 'delivering')}
+                                            >
+                                                {order.delivery_status === 'delivering' ? 'Mark as Delivered' : 'Mark as Delivering'}
+                                            </Button>
                                         </td>
-                                    )}
-
-                                    {/* Feedback (only for Delivered orders) */}
-                                    {order.delivery_status === "delivered" && (
-                                        <td className="p-4 border border-gray-300">{order.feedback}</td>
                                     )}
                                 </tr>
                             ))}
@@ -200,4 +156,3 @@ export default function OrderDetailsPage() {
         </>
     );
 }
-    
