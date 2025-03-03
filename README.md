@@ -1,36 +1,102 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ReServe - Surplus Food Sharing Platform
 
-## Getting Started
+\
+*A platform to connect donors, NGOs, and delivery personnel for efficient surplus food distribution.*
 
-First, run the development server:
+## 📌 About ReServe
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+ReServe is a web application designed to reduce food wastage by connecting individuals and businesses with surplus food to NGOs that distribute it to those in need. The platform streamlines the process by enabling seamless donor-to-NGO connections, tracking deliveries, and collecting feedback to improve operations.
+
+## 🚀 Features
+
+- 📦 **Food Donation Management** - Donors can list surplus food for collection.
+- 🏢 **NGO Collaboration** - NGOs can view and claim food donations.
+- 🚚 **Delivery Tracking** - Assign delivery personnel and track food distribution in real time.
+- ⭐ **Feedback & Ratings** - Gather ratings and feedback for service improvement.
+- 📊 **Dashboard & Analytics** - Monitor donations, deliveries, and impact statistics.
+
+## 🛠️ Tech Stack
+
+- **Frontend**: React.js, Next.js, Tailwind CSS
+- **Backend**: Node.js, Express.js, Supabase (PostgreSQL)
+- **Authentication**: Supabase Auth
+- **Storage**: Cloudinary (for images if applicable)
+- **Deployment**: Vercel (Frontend), Railway/Supabase (Backend & Database)
+
+## 📂 Project Structure
+
+```
+ReServe/
+├── frontend/ (React + Next.js frontend)
+├── backend/ (Express.js backend)
+├── database/ (Supabase PostgreSQL setup)
+└── README.md (This file)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🏗️ Installation & Setup
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 1️⃣ Clone the Repository
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```sh
+git clone https://github.com/yourusername/ReServe.git
+cd ReServe
+```
 
-## Learn More
+### 2️⃣ Install Dependencies
 
-To learn more about Next.js, take a look at the following resources:
+```sh
+# Frontend
+cd frontend
+npm install
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Backend
+cd ../backend
+npm install
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 3️⃣ Configure Environment Variables
 
-## Deploy on Vercel
+Create a `.env` file in both `frontend/` and `backend/` directories with the required credentials:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 4️⃣ Run the Application
+
+```sh
+# Start Backend
+cd backend
+npm start
+
+# Start Frontend
+cd frontend
+npm run dev
+```
+
+## 📌 API Endpoints
+
+| Method | Endpoint          | Description                |
+| ------ | ----------------- | -------------------------- |
+| GET    | `/api/orders`     | Fetch all orders           |
+| POST   | `/api/donate`     | Create a new food donation |
+| PATCH  | `/api/orders/:id` | Update delivery status     |
+
+## 🤝 Contributing
+
+We welcome contributions! Feel free to open an issue or submit a pull request.
+
+## 📜 License
+
+This project is licensed under the [MIT License](LICENSE).
+
+## ✨ Acknowledgments
+
+- Open-source libraries & frameworks
+- NGOs & donors supporting the cause
+
+## 📬 Contact
+
+For queries or collaborations, reach out via [your-email@example.com](mailto\:your-email@example.com) or visit our [GitHub Repository](https://github.com/yourusername/ReServe).
+
