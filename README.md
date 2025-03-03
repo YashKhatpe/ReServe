@@ -58,12 +58,12 @@ npm start
 
 ## 📌 API Endpoints
 
-| Method | Endpoint          | Description                |
-| ------ | ----------------- | -------------------------- |
-| GET    | `/api/veriFssai`  | Verifying restaurants      |
-| POST   | `/api/excelReport`| Create a new food donation |
-| PATCH  | `/api/getDistance`| Calculating the distance   |
-|        |                   | between ngos and donors    |
+| Method | Endpoint          | Description                                        |
+| ------ | ----------------- | -------------------------------------------------- |
+| GET    | `/api/veriFssai`  | Verifying restaurants                              |
+| POST   | `/api/excelReport`| Create a new food donation                         |
+| PATCH  | `/api/getDistance`| Calculating the distance between ngos and donors   |
+
 
 ## 🤝 Contributing
 
