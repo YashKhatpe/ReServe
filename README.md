@@ -23,15 +23,6 @@ ReServe is a web application designed to reduce food wastage by connecting indiv
 - **Storage**: Cloudinary (for images if applicable)
 - **Deployment**: Vercel (Frontend), Railway/Supabase (Backend & Database)
 
-## 📂 Project Structure
-
-```
-ReServe/
-├── frontend/ (React + Next.js frontend)
-├── backend/ (Express.js backend)
-├── database/ (Supabase PostgreSQL setup)
-└── README.md (This file)
-```
 
 ## 🏗️ Installation & Setup
 
@@ -45,18 +36,12 @@ cd ReServe
 ### 2️⃣ Install Dependencies
 
 ```sh
-# Frontend
-cd frontend
-npm install
-
-# Backend
-cd ../backend
 npm install
 ```
 
 ### 3️⃣ Configure Environment Variables
 
-Create a `.env` file in both `frontend/` and `backend/` directories with the required credentials:
+Create a `.env` file in the root directory with the required credentials:
 
 ```env
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
@@ -66,30 +51,23 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 ### 4️⃣ Run the Application
 
 ```sh
-# Start Backend
-cd backend
-npm start
-
-# Start Frontend
-cd frontend
 npm run dev
+OR
+npm start
 ```
 
 ## 📌 API Endpoints
 
 | Method | Endpoint          | Description                |
 | ------ | ----------------- | -------------------------- |
-| GET    | `/api/orders`     | Fetch all orders           |
-| POST   | `/api/donate`     | Create a new food donation |
-| PATCH  | `/api/orders/:id` | Update delivery status     |
+| GET    | `/api/veriFssai`  | Verifying restaurants      |
+| POST   | `/api/excelReport`| Create a new food donation |
+| PATCH  | `/api/getDistance`| Calculating the distance   |
+|        |                   | between ngos and donors    |
 
 ## 🤝 Contributing
 
 We welcome contributions! Feel free to open an issue or submit a pull request.
-
-## 📜 License
-
-This project is licensed under the [MIT License](LICENSE).
 
 ## ✨ Acknowledgments
 
@@ -98,5 +76,5 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## 📬 Contact
 
-For queries or collaborations, reach out via [your-email@example.com](mailto\:your-email@example.com) or visit our [GitHub Repository](https://github.com/yourusername/ReServe).
+For queries or collaborations, reach out via [yashkhatpe0611@gmail.com](mailto\:yashkhatpe0611@gmail.com) or visit our [GitHub Repository](https://github.com/YashKhatpe/ReServe).
 
